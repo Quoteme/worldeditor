@@ -1,0 +1,65 @@
+.multimenu{
+	position: fixed;
+	z-index: 10;
+	color: black;
+	left: 75%;
+	width: 25%;
+	top: 0;
+}
+.menubtn{
+	vertical-align: top;
+	display: inline-block;
+	width: 28px;
+}
+.menubtn div{
+	background-color: rgb(50, 50, 50);
+	height: 50px;
+	display: flex;
+	align-items: center;
+	transition: 0.5s;
+}
+.menuslct{
+	height: 100vh;
+	width: -webkit-calc(100% - 28px);
+	width:    -moz-calc(100% - 28px);
+	width:         calc(100% - 28px);
+	background-color: rgb(33, 33, 33);
+	float: right;
+}
+.title{
+	text-align: center;
+	font-family: monospace;
+	color: #fff;
+	text-shadow: 2px 2px 0px #aaa;
+	font-size: 24px;
+}
+#selected{
+	height: 75px;
+	background-color: rgb(59, 59, 59);
+	border-bottom-left-radius: 15px;
+}
+.container{
+	padding: 10px;
+}
+.worldsearch{
+	text-align: center;
+}
+.worldsearch input{
+	font-size: 14px;
+}
+.worldsearch img{
+	height: 14px;
+}
+button, input{
+	background-color: rgb(59, 59, 59);
+	border-color: rgb(50, 50, 50);
+}
+hr{
+	border-color: #000;
+}
+.overview{
+	width: 100%;
+}
+#code{
+	display: none;
+}

@@ -1,0 +1,54 @@
+<h3>new material</h3>
+<table>
+	<tr>
+		<td>name:</td>
+		<td><input type="text" class='name' value=""></td>
+	</tr>
+	<tr>
+		<td>type:</td>
+		<td><select class="type" onchange="for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';}document.getElementsByClassName(this.value)[0].style.display = 'block';">
+			<option value="cube">cube</option>
+			<option value="plane">plane</option>
+			<option value="slope">slope</option>
+			<option value="slopeHalfTop">slopeHalfTop</option>
+			<option value="slopeHalfBottom">slopeHalfBottom</option>
+		</select></td>
+	</tr>
+</table>
+<div class="specificSettings">
+	<div class="cube" style="display: none">
+		<table>
+			<tr>
+				<td>front</td>
+				<td><input type="url" value="resource/basic/Test-front.png" id="block-url-front" class="front"></td>
+				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('block-url-front').value">preview</button><img src="" id="preview-front" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>back</td>
+				<td><input type="url" value="resource/basic/Test-back.png" id="block-url-back" class="back"></td>
+				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('block-url-back').value">preview</button><img src="" id="preview-back" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>left</td>
+				<td><input type="url" value="resource/basic/Test-left.png" id="block-url-left" class="left"></td>
+				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('block-url-left').value">preview</button><img src="" id="preview-left" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>right</td>
+				<td><input type="url" value="resource/basic/Test-right.png" id="block-url-right" class="right"></td>
+				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('block-url-right').value">preview</button><img src="" id="preview-right" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>top</td>
+				<td><input type="url" value="resource/basic/Test-top.png" id="block-url-top" class="top"></td>
+				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('block-url-top').value">preview</button><img src="" id="preview-top" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>bottom</td>
+				<td><input type="url" value="resource/basic/Test-bottom.png" id="block-url-bottom" class="bottom"></td>
+				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('block-url-bottom').value">preview</button><img src="" id="preview-bottom" alt='no preview'></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<button type="button" id="code" onclick=""></button>
