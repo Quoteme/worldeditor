@@ -40,6 +40,8 @@
 }
 .container{
 	padding: 10px;
+	color: #fff;
+    font-family: monospace;
 }
 .worldsearch{
 	text-align: center;
@@ -53,6 +55,7 @@
 button, input{
 	background-color: rgb(59, 59, 59);
 	border-color: rgb(50, 50, 50);
+	color: #fff;
 }
 hr{
 	border-color: #000;
@@ -62,4 +65,10 @@ hr{
 }
 #code{
 	display: none;
+}
+.name{
+	font-size: 18px;
+}
+.author{
+	text-align: right;
 }

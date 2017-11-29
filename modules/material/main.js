@@ -32,43 +32,28 @@ Material.plane = function (p) {
 	this.physics = new PhysicsObj();
 }
 
-// __
-// | ¯\
-// |   ¯\
-// |     ¯\
-// |       ¯\
-// |__________\
-Material.slope = function (p) {
+// ___________
+// |         |\
+// |         | \
+//  \_________\|
+Material.slap = function (p) {
 	// faces
-	this.f = {"slope":p.f.slope, "back": p.f.back, "left": p.f.left, "right": p.f.right, "bottom": p.f.bottom};
+	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
 	// physics
 	this.physics = new PhysicsObj();
 }
 
-// ___
-// |  ¯¯\
-// |     ¯¯\
-// |        ¯¯\
+// ______
+// |     |
+// |     |_____
+// |          |
 // |          |
 // |__________|
-Material.slopeHalfTop = function (p) {
+Material.step = function (p) {
 	// faces
-	this.f = {"front":p.f.front, "slope":p.f.slope, "back": p.f.back, "left": p.f.left, "right": p.f.right, "bottom": p.f.bottom};
-	// rotation
-	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
-	// physics
-	this.physics = new PhysicsObj();
-}
-
-// ___
-// |  ¯¯\
-// |     ¯¯\
-// |________¯¯\
-Material.slopeHalfBottom = function (p) {
-	// faces
-	this.f = {"slope":p.f.slope, "back": p.f.back, "left": p.f.left, "right": p.f.right, "bottom": p.f.bottom};
+	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
 	// physics

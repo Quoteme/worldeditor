@@ -9,46 +9,154 @@
 		<td><select class="type" onchange="for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';}document.getElementsByClassName(this.value)[0].style.display = 'block';">
 			<option value="cube">cube</option>
 			<option value="plane">plane</option>
-			<option value="slope">slope</option>
-			<option value="slopeHalfTop">slopeHalfTop</option>
-			<option value="slopeHalfBottom">slopeHalfBottom</option>
+			<option value="slab">slab</option>
+			<option value="slab">step</option>
 		</select></td>
+	</tr>
+	<tr>
+		<td>rotation:</td>
+		<td>{
+			x:<select class="xrotatate">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			y:<select class="yrotatate">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			z:<select class="zrotatate">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+		}</td>
 	</tr>
 </table>
 <div class="specificSettings">
-	<div class="cube" style="display: none">
+	<div class="cube" style="display: block">
 		<table>
 			<tr>
-				<td>front</td>
-				<td><input type="url" value="resource/basic/Test-front.png" id="block-url-front" class="front"></td>
-				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('block-url-front').value">preview</button><img src="" id="preview-front" alt='no preview'></td>
-			</tr>
-			<tr>
-				<td>back</td>
-				<td><input type="url" value="resource/basic/Test-back.png" id="block-url-back" class="back"></td>
-				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('block-url-back').value">preview</button><img src="" id="preview-back" alt='no preview'></td>
+				<td>right</td>
+				<td><input type="url" value="resource/basic/Test-right.png" id="cube-url-right" class="right"></td>
+				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('cube-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
 			</tr>
 			<tr>
 				<td>left</td>
-				<td><input type="url" value="resource/basic/Test-left.png" id="block-url-left" class="left"></td>
-				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('block-url-left').value">preview</button><img src="" id="preview-left" alt='no preview'></td>
-			</tr>
-			<tr>
-				<td>right</td>
-				<td><input type="url" value="resource/basic/Test-right.png" id="block-url-right" class="right"></td>
-				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('block-url-right').value">preview</button><img src="" id="preview-right" alt='no preview'></td>
+				<td><input type="url" value="resource/basic/Test-left.png" id="cube-url-left" class="left"></td>
+				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('cube-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
 			</tr>
 			<tr>
 				<td>top</td>
-				<td><input type="url" value="resource/basic/Test-top.png" id="block-url-top" class="top"></td>
-				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('block-url-top').value">preview</button><img src="" id="preview-top" alt='no preview'></td>
+				<td><input type="url" value="resource/basic/Test-top.png" id="cube-url-top" class="top"></td>
+				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('cube-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
 			</tr>
 			<tr>
 				<td>bottom</td>
-				<td><input type="url" value="resource/basic/Test-bottom.png" id="block-url-bottom" class="bottom"></td>
-				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('block-url-bottom').value">preview</button><img src="" id="preview-bottom" alt='no preview'></td>
+				<td><input type="url" value="resource/basic/Test-bottom.png" id="cube-url-bottom" class="bottom"></td>
+				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('cube-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>front</td>
+				<td><input type="url" value="resource/basic/Test-front.png" id="cube-url-front" class="front"></td>
+				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('cube-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>back</td>
+				<td><input type="url" value="resource/basic/Test-back.png" id="cube-url-back" class="back"></td>
+				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('cube-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
+			</tr>
+		</table>
+	</div>
+	<div class="plane" style="display: none">
+		<table>
+			<tr>
+				<td>front</td>
+				<td><input type="url" value="resource/basic/Test-front.png" id="plane-url-front" class="front"></td>
+				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('plane-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>back</td>
+				<td><input type="url" value="resource/basic/Test-back.png" id="plane-url-back" class="back"></td>
+				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('plane-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
+			</tr>
+		</table>
+	</div>
+	<div class="slab" style="display: none">
+		<table>
+			<tr>
+				<td>right</td>
+				<td><input type="url" value="resource/basic/Test-right.png" id="slab-url-right" class="right"></td>
+				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('slab-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>left</td>
+				<td><input type="url" value="resource/basic/Test-left.png" id="slab-url-left" class="left"></td>
+				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('slab-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>top</td>
+				<td><input type="url" value="resource/basic/Test-top.png" id="slab-url-top" class="top"></td>
+				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('slab-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>bottom</td>
+				<td><input type="url" value="resource/basic/Test-bottom.png" id="slab-url-bottom" class="bottom"></td>
+				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('slab-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>front</td>
+				<td><input type="url" value="resource/basic/Test-front.png" id="slab-url-front" class="front"></td>
+				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('slab-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>back</td>
+				<td><input type="url" value="resource/basic/Test-back.png" id="slab-url-back" class="back"></td>
+				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('slab-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
+			</tr>
+		</table>
+	</div>
+	<div class="step" style="display: none">
+		<table>
+			<tr>
+				<td>right</td>
+				<td><input type="url" value="resource/basic/Test-right.png" id="step-url-right" class="right"></td>
+				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('step-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>left</td>
+				<td><input type="url" value="resource/basic/Test-left.png" id="step-url-left" class="left"></td>
+				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('step-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>top</td>
+				<td><input type="url" value="resource/basic/Test-top.png" id="step-url-top" class="top"></td>
+				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('step-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>bottom</td>
+				<td><input type="url" value="resource/basic/Test-bottom.png" id="step-url-bottom" class="bottom"></td>
+				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('step-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>front</td>
+				<td><input type="url" value="resource/basic/Test-front.png" id="step-url-front" class="front"></td>
+				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('step-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+			</tr>
+			<tr>
+				<td>back</td>
+				<td><input type="url" value="resource/basic/Test-back.png" id="step-url-back" class="back"></td>
+				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('step-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
 			</tr>
 		</table>
 	</div>
 </div>
-<button type="button" id="code" onclick=""></button>
+preview: <button type="button" onclick="updatePreview('test');">update</button>
+<div class="materialPreview">
+
+</div>
+<button type="button" id="code" onclick="initPreview([200,200],document.getElementsByClassName('materialPreview')[0], 'test');"></button>

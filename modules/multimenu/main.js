@@ -9,41 +9,22 @@ function Multimenu() {
 	this.menubtn.setAttribute("class", "menubtn");
 	this.multimenu.appendChild(this.menubtn);
 
-	// MENUBUTTONS
-	this.light = document.createElement("div");
-	this.light.setAttribute("class", "light");
-	this.lightimg = document.createElement("img");
-	this.lightimg.src = "modules/multimenu/resource/overview_light.png";
-	this.light.appendChild(this.lightimg);
-	this.menubtn.appendChild(this.light);
+	this.submenu = function(name, icon) {
+		parent[name] = document.createElement("div");
+		parent[name].setAttribute("class", name);
+		parent[name + "img"] = document.createElement("img");
+		parent[name + "img"].src = icon;
+		parent[name].appendChild(parent[name + "img"]);
+		parent.menubtn.appendChild(parent[name]);
+		parent[name].onclick = function () {parent.switchMenu(this)};
+	}
 
-	this.world = document.createElement("div");
-	this.world.setAttribute("class", "world");
-	this.worldimg = document.createElement("img");
-	this.worldimg.src = "modules/multimenu/resource/overview_world.png";
-	this.world.appendChild(this.worldimg);
-	this.menubtn.appendChild(this.world);
-
-	this.animation = document.createElement("div");
-	this.animation.setAttribute("class", "animation");
-	this.animationimg = document.createElement("img");
-	this.animationimg.src = "modules/multimenu/resource/overview_animation.png";
-	this.animation.appendChild(this.animationimg);
-	this.menubtn.appendChild(this.animation);
-
-	this.event = document.createElement("div");
-	this.event.setAttribute("class", "event");
-	this.eventimg = document.createElement("img");
-	this.eventimg.src = "modules/multimenu/resource/overview_event.png";
-	this.event.appendChild(this.eventimg);
-	this.menubtn.appendChild(this.event);
-
-	this.code = document.createElement("div");
-	this.code.setAttribute("class", "code");
-	this.codeimg = document.createElement("img");
-	this.codeimg.src = "modules/multimenu/resource/overview_code.png";
-	this.code.appendChild(this.codeimg);
-	this.menubtn.appendChild(this.code);
+	this.submenu("file", "modules/multimenu/resource/overview_file.png");
+	this.submenu("light", "modules/multimenu/resource/overview_light.png");
+	this.submenu("world", "modules/multimenu/resource/overview_world.png");
+	this.submenu("animation", "modules/multimenu/resource/overview_animation.png");
+	this.submenu("event", "modules/multimenu/resource/overview_event.png");
+	this.submenu("code", "modules/multimenu/resource/overview_code.png");
 
 	// DISPLAY OF SELECTION
 	this.menuslct = document.createElement("div");
@@ -56,7 +37,7 @@ function Multimenu() {
 	this.menuslct.appendChild(this.container);
 	this.multimenu.appendChild(this.menuslct);
 
-	this.light.onclick = this.world.onclick = this.animation.onclick = this.event.onclick = this.code.onclick = function () {parent.switchMenu(this)};
+	// this.light.onclick = this.world.onclick = this.animation.onclick = this.event.onclick = this.code
 
 	this.display = function (t) {
 		if (typeof t != "undefined") {
@@ -125,3 +106,80 @@ MM.display();
 	</div>
 </div>
 */
+
+var pcamera = new Object();
+var pscene = new Object();
+var prenderer = new Object();
+var pmesh = new Object();
+function initPreview(size,cntnr,name) {
+	// size = size of the canvas used in the end
+	// cntnr = container in which the canvas is stored
+	var tmp = new Object();
+	tmp.onWindowResize = function () {
+		pcamera[name].aspect = size[0] / size[1];
+		pcamera[name].updateProjectionMatrix();
+		prenderer[name].setSize( size[0], size[1] );
+	}
+	tmp.animate = function () {
+		requestAnimationFrame( tmp.animate );
+		if (typeof pmesh[name] == "object") {
+			// pmesh[name].rotation.x += 0.005;
+			// pmesh[name].rotation.y += 0.01;
+		}
+		prenderer[name].render( pscene[name], pcamera[name] );
+	}
+
+	// pcamera[name] = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+	// var canvas = cntnr.getElementsByTagName("canvas")[0]
+	pcamera[name] = new THREE.OrthographicCamera( -size[0], size[0], size[1], -size[1], 1, 1000 );
+
+	pcamera[name].position.x = 220;
+	pcamera[name].position.y = 220;
+	pcamera[name].position.z = 220;
+	pcamera[name].lookAt(new THREE.Vector3(0,0,0));
+	pscene[name] = new THREE.Scene();
+
+	var light = new THREE.AmbientLight( 0xffffff, 0.25 ); // soft white light
+	pscene[name].add( light );
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	directionalLight.position.set( 0,400,400 );
+	// directionalLight.target.position.set( 0,0,0);
+	pscene[name].add( directionalLight );
+
+	prenderer[name] = new THREE.WebGLRenderer();
+	prenderer[name].setPixelRatio( window.devicePixelRatio );
+	pcamera[name].aspect = size[0] / size[1];
+	pcamera[name].updateProjectionMatrix();
+	prenderer[name].setSize( size[0], size[1] );
+	cntnr.appendChild( prenderer[name].domElement );
+	//
+	window.addEventListener( 'resize', tmp.onWindowResize, false );
+	tmp.animate();
+}
+
+function updatePreview(name) {
+	pscene[name].remove(pmesh[name]);
+	var texture_right = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value );
+	var texture_left = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value );
+	var texture_top = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value );
+	var texture_bottom = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value );
+	var texture_front = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value );
+	var texture_back = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value );
+	texture_front.magFilter = texture_back.magFilter = texture_left.magFilter = texture_right.magFilter = texture_top.magFilter = texture_bottom.magFilter = THREE.NearestFilter;
+	texture_front.minFilter = texture_back.minFilter = texture_left.minFilter = texture_right.minFilter = texture_top.minFilter = texture_bottom.minFilter = THREE.NearestFilter;
+	texture_front.wrapT = texture_back.wrapT = texture_left.wrapT = texture_right.wrapT = texture_top.wrapT = texture_bottom.wrapT = THREE.RepeatWrapping;
+	texture_front.wrapS = texture_back.wrapS = texture_left.wrapS = texture_right.wrapS = texture_top.wrapS = texture_bottom.wrapS = THREE.RepeatWrapping;
+
+	var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+	var material_right = new THREE.MeshLambertMaterial( { map: texture_right } )
+	var material_left = new THREE.MeshLambertMaterial( { map: texture_left } )
+	var material_top = new THREE.MeshLambertMaterial( { map: texture_top } )
+	var material_bottom = new THREE.MeshLambertMaterial( { map: texture_bottom } );
+	var material_front = new THREE.MeshLambertMaterial( { map: texture_front } )
+	var material_back = new THREE.MeshLambertMaterial( { map: texture_back } )
+	pmesh[name] = new THREE.Mesh( geometry, [material_right,material_left,material_top,material_bottom,material_front,material_back] );
+	pmesh[name].rotation.x = Math.PI*0.5 * document.getElementsByClassName("xrotatate")[0].value;
+	pmesh[name].rotation.y = Math.PI*0.5 * document.getElementsByClassName("yrotatate")[0].value;
+	pmesh[name].rotation.z = Math.PI*0.5 * document.getElementsByClassName("zrotatate")[0].value;
+	pscene[name].add( pmesh[name] );
+}

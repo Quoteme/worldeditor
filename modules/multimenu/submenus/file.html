@@ -1,0 +1,41 @@
+<div class="fileoptions">
+	<button type="button" name="button">save</button>
+	<button type="button" name="button">load</button>
+	<button type="button" name="button" onclick='MM.loadSubmenuFiles("modules/multimenu/submenus/file_new.html")'>new</button>
+</div>
+format: <select class="fileformat">
+			<option value="json">.json</option>
+			<option value="lvs">.lvs</option>
+			<option value="png">.png</option>
+		</select>
+<div class="formatOverview">
+	<div class="json">
+		<h3>.JSON</h3>
+		<p>
+			The simple .json format allows for the entire file to be saved as a json string,
+			aka. a format that can be almost universally opened by text editors and is
+			very easy to implement into other projects.
+		</p>
+	</div>
+	<div class="lvs">
+		<h3>.LVS</h3>
+		<p>
+			LVS (Luca's Voxel storage) is a filetype designed to store voxel maps in an
+			enhanced but more complicated way than .json. It is especially designed to work with
+			software designed by me.
+		</p>
+	</div>
+	<div class="png">
+		<h3>.PNG</h3>
+		<p>
+			Originally designed to store images, it is also possible to encode json strings
+			or other data to an image just for it to later be extracted back to a json string.
+			Exporting a project to .png allows for more flexible sharing especially on
+			image sharing websites.
+		</p>
+	</div>
+
+	<div class="author">
+		©Luca Leon Happel 2017
+	</div>
+</div>
