@@ -10,6 +10,9 @@ var MaterialOptions = {
 // |_________| |
 //  \_________\|
 Material.cube = function (p) {
+	this.name = p.name;
+	this.type = "cube";
+	this.description = p.description;
 	// faces
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
@@ -24,6 +27,9 @@ Material.cube = function (p) {
 // |         |
 // |_________|
 Material.plane = function (p) {
+	this.name = p.name;
+	this.type = "plane";
+	this.description = p.description;
 	// faces
 	this.f = {"front":p.f.front, "back": p.f.back};
 	// rotation
@@ -37,6 +43,9 @@ Material.plane = function (p) {
 // |         | \
 //  \_________\|
 Material.slap = function (p) {
+	this.name = p.name;
+	this.type = "slap";
+	this.description = p.description;
 	// faces
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
@@ -52,6 +61,9 @@ Material.slap = function (p) {
 // |          |
 // |__________|
 Material.step = function (p) {
+	this.name = p.name;
+	this.type = "step";
+	this.description = p.description;
 	// faces
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation

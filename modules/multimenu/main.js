@@ -151,35 +151,80 @@ function initPreview(size,cntnr,name) {
 	pcamera[name].aspect = size[0] / size[1];
 	pcamera[name].updateProjectionMatrix();
 	prenderer[name].setSize( size[0], size[1] );
+	prenderer[name].domElement.id = name;
 	cntnr.appendChild( prenderer[name].domElement );
 	//
 	window.addEventListener( 'resize', tmp.onWindowResize, false );
 	tmp.animate();
 }
-
-function updatePreview(name) {
+function updatePreview(name, mesh) {
 	pscene[name].remove(pmesh[name]);
-	var texture_right = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value );
-	var texture_left = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value );
-	var texture_top = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value );
-	var texture_bottom = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value );
-	var texture_front = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value );
-	var texture_back = new THREE.TextureLoader().load( document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value );
-	texture_front.magFilter = texture_back.magFilter = texture_left.magFilter = texture_right.magFilter = texture_top.magFilter = texture_bottom.magFilter = THREE.NearestFilter;
-	texture_front.minFilter = texture_back.minFilter = texture_left.minFilter = texture_right.minFilter = texture_top.minFilter = texture_bottom.minFilter = THREE.NearestFilter;
-	texture_front.wrapT = texture_back.wrapT = texture_left.wrapT = texture_right.wrapT = texture_top.wrapT = texture_bottom.wrapT = THREE.RepeatWrapping;
-	texture_front.wrapS = texture_back.wrapS = texture_left.wrapS = texture_right.wrapS = texture_top.wrapS = texture_bottom.wrapS = THREE.RepeatWrapping;
-
-	var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
-	var material_right = new THREE.MeshLambertMaterial( { map: texture_right } )
-	var material_left = new THREE.MeshLambertMaterial( { map: texture_left } )
-	var material_top = new THREE.MeshLambertMaterial( { map: texture_top } )
-	var material_bottom = new THREE.MeshLambertMaterial( { map: texture_bottom } );
-	var material_front = new THREE.MeshLambertMaterial( { map: texture_front } )
-	var material_back = new THREE.MeshLambertMaterial( { map: texture_back } )
-	pmesh[name] = new THREE.Mesh( geometry, [material_right,material_left,material_top,material_bottom,material_front,material_back] );
-	pmesh[name].rotation.x = Math.PI*0.5 * document.getElementsByClassName("xrotatate")[0].value;
-	pmesh[name].rotation.y = Math.PI*0.5 * document.getElementsByClassName("yrotatate")[0].value;
-	pmesh[name].rotation.z = Math.PI*0.5 * document.getElementsByClassName("zrotatate")[0].value;
+	pmesh[name] = mesh;
+	// pmesh[name].rotation.x = Math.PI*0.5 * document.getElementsByClassName("xrotatate")[0].value;
+	// pmesh[name].rotation.y = Math.PI*0.5 * document.getElementsByClassName("yrotatate")[0].value;
+	// pmesh[name].rotation.z = Math.PI*0.5 * document.getElementsByClassName("zrotatate")[0].value;
 	pscene[name].add( pmesh[name] );
+}
+
+var sbmenu_file_new = new Object();
+sbmenu_file_new.newMap = function () {
+	file = new VoxelMap({
+		"name": document.getElementsByClassName("name")[0].value,
+		"type": document.getElementsByClassName("type")[0].value,
+		"size": {
+			"x": document.getElementById("xsize").value,
+			"y": document.getElementById("ysize").value,
+			"z": document.getElementById("zsize").value
+		},
+		"author": document.getElementsByClassName("author")[0].value,
+		"note": document.getElementsByClassName("note")[0].value
+	});
+}
+
+var sbmenu_world = new Object();
+sbmenu_world.updateOverview = function () {
+	// make all the different materials display up as a choice in the world menu
+	if (typeof file != "undefined") {
+		for (var i = 0; i < file.material.length; i++) {
+			initPreview([200,200],document.getElementsByClassName('overview')[0],"preview_"+i);
+			document.getElementById("preview_"+i).className = "preview";
+			updatePreview("preview_"+i,genMesh(file.material[i]));
+		}
+	}
+	// file.material[i]
+}
+sbmenu_world.previewButton = function() {
+	var previewMaterial = new Material.cube({"name":"test",
+		"f":{
+			"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
+			"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
+			"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
+			"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
+			"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
+			"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
+		},
+		"r":{
+			"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
+		}
+	})
+	var mesh = genMesh(previewMaterial);
+	updatePreview("test",mesh);
+}
+sbmenu_world.addMaterial = function () {
+	var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
+		"name": document.getElementsByClassName("name")[0].value,
+		"description": document.getElementsByClassName("description")[0].value,
+		"f":{
+			"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
+			"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
+			"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
+			"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
+			"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
+			"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
+		},
+		"r":{
+			"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
+		}
+	});
+	file.material.push(newMaterial);
 }

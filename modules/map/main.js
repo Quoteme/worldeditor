@@ -1,5 +1,10 @@
-function Map(p) {
+FL.addjs("modules/map/display.js");
+
+function VoxelMap(p) {
 	this.type = p.type;
+	this.name = p.name;
+	this.athor= p.author;
+	this.note = p.note;
 	if (this.type == "limited") {
 		this.size = {};
 		this.size.x = p.size.x;
@@ -8,11 +13,19 @@ function Map(p) {
 
 		this.data = new Array(this.size.x);
 		for (var x = 0; x < this.data.length; x++) {
+			this.data[x] = new Array(this.size.y);
 			for (var y = 0; y < this.data[x].length; y++) {
+				this.data[x][y] = new Array(this.size.z)
 				for (var z = 0; z < this.data[x][y].length; z++) {
 					this.data[x][y][z] = 0;
+					// simple ground generator
+					if (y == 0) {
+						this.data[x][y][z] = 1;
+					}
+					// end simple ground generator
 				}
 			}
 		}
 	}
+	this.material = [];
 }

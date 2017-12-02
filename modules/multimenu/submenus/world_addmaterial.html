@@ -5,6 +5,10 @@
 		<td><input type="text" class='name' value=""></td>
 	</tr>
 	<tr>
+		<td>description:</td>
+		<td><textarea class="description" rows="2" cols="30"></textarea></td>
+	</tr>
+	<tr>
 		<td>type:</td>
 		<td><select class="type" onchange="for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';}document.getElementsByClassName(this.value)[0].style.display = 'block';">
 			<option value="cube">cube</option>
@@ -155,8 +159,9 @@
 		</table>
 	</div>
 </div>
-preview: <button type="button" onclick="updatePreview('test');">update</button>
+preview: <button type="button" onclick="sbmenu_world.previewButton();">update</button>
 <div class="materialPreview">
 
 </div>
+<button type="button" onclick="sbmenu_world.addMaterial();MM.loadSubmenuFiles('modules/multimenu/submenus/world.html')">Add</button>
 <button type="button" id="code" onclick="initPreview([200,200],document.getElementsByClassName('materialPreview')[0], 'test');"></button>
