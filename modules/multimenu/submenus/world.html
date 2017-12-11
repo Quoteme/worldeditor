@@ -7,4 +7,4 @@
 <hr>
 <div class='overview'>
 </div>
-<button type="button" id="code" onclick="sbmenu_world.updateOverview();"></button>
+<button type="button" id="code" onclick="if(typeof file == 'undefined'){document.getElementsByClassName('overview')[0].innerHTML = 'No map file currently loaded. Create one!'};sbmenu_world.updateOverview();"></button>

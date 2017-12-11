@@ -79,39 +79,13 @@ function Multimenu() {
 var MM = new Multimenu();
 MM.display();
 
-/*
-<div class="multimenu">
-	<div class="menubtn">
-		<div class="light">
-			<img src="modules/multimenu/resource/overview_light.png" alt="Light">
-		</div>
-		<div class="world">
-			<img src="modules/multimenu/resource/overview_world.png" alt="Light">
-		</div>
-		<div class="animation">
-			<img src="modules/multimenu/resource/overview_animation.png" alt="Light">
-		</div>
-		<div class="event">
-			<img src="modules/multimenu/resource/overview_event.png" alt="Light">
-		</div>
-		<div class="code">
-			<img src="modules/multimenu/resource/overview_code.png" alt="Light">
-		</div>
-	</div>
-	<div class="menuslct">
-		<h2 class="title"></h2>
-		<div class="content">
-
-		</div>
-	</div>
-</div>
-*/
-
 var pcamera = new Object();
 var pscene = new Object();
 var prenderer = new Object();
 var pmesh = new Object();
 function initPreview(size,cntnr,name) {
+	var div = document.createElement("div");
+	div.setAttribute("id", name);
 	// size = size of the canvas used in the end
 	// cntnr = container in which the canvas is stored
 	var tmp = new Object();
@@ -151,8 +125,8 @@ function initPreview(size,cntnr,name) {
 	pcamera[name].aspect = size[0] / size[1];
 	pcamera[name].updateProjectionMatrix();
 	prenderer[name].setSize( size[0], size[1] );
-	prenderer[name].domElement.id = name;
-	cntnr.appendChild( prenderer[name].domElement );
+	div.appendChild( prenderer[name].domElement );
+	cntnr.appendChild( div );
 	//
 	window.addEventListener( 'resize', tmp.onWindowResize, false );
 	tmp.animate();
@@ -172,9 +146,9 @@ sbmenu_file_new.newMap = function () {
 		"name": document.getElementsByClassName("name")[0].value,
 		"type": document.getElementsByClassName("type")[0].value,
 		"size": {
-			"x": document.getElementById("xsize").value,
-			"y": document.getElementById("ysize").value,
-			"z": document.getElementById("zsize").value
+			"x": parseInt(document.getElementById("xsize").value),
+			"y": parseInt(document.getElementById("ysize").value),
+			"z": parseInt(document.getElementById("zsize").value)
 		},
 		"author": document.getElementsByClassName("author")[0].value,
 		"note": document.getElementsByClassName("note")[0].value
@@ -186,45 +160,78 @@ sbmenu_world.updateOverview = function () {
 	// make all the different materials display up as a choice in the world menu
 	if (typeof file != "undefined") {
 		for (var i = 0; i < file.material.length; i++) {
-			initPreview([200,200],document.getElementsByClassName('overview')[0],"preview_"+i);
+			initPreview([option.preview.width,option.preview.height],document.getElementsByClassName('overview')[0],"preview_"+i);
 			document.getElementById("preview_"+i).className = "preview";
+			// add title and description to the preview
+			var name = document.createElement("div");
+			name.setAttribute("class", "name");
+			var note = document.createElement("div");
+			note.setAttribute("class", "note");
+			name.appendChild(document.createTextNode(file.material[i].name));
+			note.appendChild(document.createTextNode(file.material[i].description));
+			document.getElementById("preview_"+i).appendChild(name);
+			document.getElementById("preview_"+i).appendChild(note);
 			updatePreview("preview_"+i,genMesh(file.material[i]));
 		}
 	}
 	// file.material[i]
 }
 sbmenu_world.previewButton = function() {
-	var previewMaterial = new Material.cube({"name":"test",
-		"f":{
-			"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
-			"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
-			"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
-			"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
-			"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
-			"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
-		},
-		"r":{
-			"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-		}
-	})
+	previewMaterial = sbmenu_world.genMaterial()
 	var mesh = genMesh(previewMaterial);
+	if (typeof previewRenderer == "undefined") {
+		previewRenderer = new previewBlock([200,200]);
+	}
+	console.log(previewRenderer.render(genMesh(previewMaterial)));
 	updatePreview("test",mesh);
+
 }
-sbmenu_world.addMaterial = function () {
-	var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
-		"name": document.getElementsByClassName("name")[0].value,
-		"description": document.getElementsByClassName("description")[0].value,
-		"f":{
-			"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
-			"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
-			"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
-			"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
-			"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
-			"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
-		},
-		"r":{
-			"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-		}
-	});
-	file.material.push(newMaterial);
+sbmenu_world.genMaterial = function () {
+	// if a user can load a map of textures, just by giving the general name (ie. "test", instead of "test-right", "test-top", "...")
+	if (document.getElementsByClassName("indiviudalTextures")[0].checked) {
+		var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
+			"name": document.getElementsByClassName("name")[0].value,
+			"description": document.getElementsByClassName("description")[0].value,
+			"f":{
+				"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-right.'),
+				"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-left.'),
+				"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-top.'),
+				"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-bottom.'),
+				"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-front.'),
+				"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-back.')
+			},
+			"r":{
+				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
+			}
+		});
+	}
+	else {
+		var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
+			"name": document.getElementsByClassName("name")[0].value,
+			"description": document.getElementsByClassName("description")[0].value,
+			"f":{
+				"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
+				"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
+				"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
+				"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
+				"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
+				"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
+			},
+			"r":{
+				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
+			}
+		});
+	}
+	return newMaterial;
+}
+
+sbmenu_world.displayFaceURLpicker = function(){
+	for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {
+		document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';
+	}
+	if (document.getElementsByClassName("indiviudalTextures")[0].checked) {
+		document.getElementsByClassName(document.getElementsByClassName("type")[0].value + "Oneface")[0].style.display = 'block';
+	}else {
+		document.getElementsByClassName(document.getElementsByClassName("type")[0].value)[0].style.display = 'block';
+	}
 }

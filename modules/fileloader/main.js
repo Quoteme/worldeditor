@@ -2,6 +2,7 @@ function Fileloader() {
 	this.addjs = function (src) {
 		var imported = document.createElement('script');
 		imported.src = src;
+		console.log("loaded: " + src);
 		document.head.appendChild(imported);
 	}
 	this.ajax = function (path, callback) {

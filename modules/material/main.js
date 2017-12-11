@@ -41,7 +41,7 @@ Material.plane = function (p) {
 // ___________
 // |         |\
 // |         | \
-//  \_________\|
+// \_________\_|
 Material.slap = function (p) {
 	this.name = p.name;
 	this.type = "slap";

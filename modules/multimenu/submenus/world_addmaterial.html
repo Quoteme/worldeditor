@@ -10,7 +10,7 @@
 	</tr>
 	<tr>
 		<td>type:</td>
-		<td><select class="type" onchange="for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';}document.getElementsByClassName(this.value)[0].style.display = 'block';">
+		<td><select class="type" onchange="sbmenu_world.displayFaceURLpicker()">
 			<option value="cube">cube</option>
 			<option value="plane">plane</option>
 			<option value="slab">slab</option>
@@ -40,9 +40,13 @@
 			</select>
 		}</td>
 	</tr>
+	<tr>
+		<td>individual face textures:</td>
+		<td><input type="checkbox" onchange="sbmenu_world.displayFaceURLpicker()" class='indiviudalTextures' title="if checked, you can pic a tecture for each face of the material. If left untouched, you can faster choose a preset"></td>
+	</tr>
 </table>
 <div class="specificSettings">
-	<div class="cube" style="display: block">
+	<div class="cube" style="display: none">
 		<table>
 			<tr>
 				<td>right</td>
@@ -76,6 +80,28 @@
 			</tr>
 		</table>
 	</div>
+	<div class="cubeOneface" style="display: none">
+		<table>
+			<tr>
+				<td>baseURL</td>
+				<td><input type="url" value="resource/basic/Test.png" id="cube-url" class="right"></td>
+				<td><button type="button" onclick="
+					document.getElementById('cube-preview-right-fast').src = document.getElementById('cube-url').value.replace('.', '-right.');
+					document.getElementById('cube-preview-left-fast').src = document.getElementById('cube-url').value.replace('.', '-left.');
+					document.getElementById('cube-preview-top-fast').src = document.getElementById('cube-url').value.replace('.', '-top.');
+					document.getElementById('cube-preview-bottom-fast').src = document.getElementById('cube-url').value.replace('.', '-bottom.');
+					document.getElementById('cube-preview-front-fast').src = document.getElementById('cube-url').value.replace('.', '-front.');
+					document.getElementById('cube-preview-back-fast').src = document.getElementById('cube-url').value.replace('.', '-back.')">preview</button>
+					<img src="resource/basic/Test-right.png" id="cube-preview-right-fast" alt='no preview'>
+					<img src="resource/basic/Test-left.png" id="cube-preview-left-fast" alt='no preview'>
+					<img src="resource/basic/Test-top.png" id="cube-preview-top-fast" alt='no preview'>
+					<img src="resource/basic/Test-bottom.png" id="cube-preview-bottom-fast" alt='no preview'>
+					<img src="resource/basic/Test-front.png" id="cube-preview-front-fast" alt='no preview'>
+					<img src="resource/basic/Test-back.png" id="cube-preview-back-fast" alt='no preview'>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<div class="plane" style="display: none">
 		<table>
 			<tr>
@@ -87,6 +113,20 @@
 				<td>back</td>
 				<td><input type="url" value="resource/basic/Test-back.png" id="plane-url-back" class="back"></td>
 				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('plane-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
+			</tr>
+		</table>
+	</div>
+	<div class="planeOneface" style="display: none">
+		<table>
+			<tr>
+				<td>baseURL</td>
+				<td><input type="url" value="resource/basic/Test.png" id="plane-url" class="right"></td>
+				<td><button type="button" onclick="
+					document.getElementById('plane-preview-front-fast').src = document.getElementById('plane-url').value.replace('.', '-front.');
+					document.getElementById('plane-preview-back-fast').src = document.getElementById('plane-url').value.replace('.', '-back.')">preview</button>
+					<img src="resource/basic/Test-front.png" id="plane-preview-front-fast" alt='no preview'>
+					<img src="resource/basic/Test-back.png" id="plane-preview-back-fast" alt='no preview'>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -124,6 +164,28 @@
 			</tr>
 		</table>
 	</div>
+	<div class="slabOneface" style="display: none">
+		<table>
+			<tr>
+				<td>baseURL</td>
+				<td><input type="url" value="resource/basic/Test.png" id="slab-url" class="right"></td>
+				<td><button type="button" onclick="
+					document.getElementById('slab-preview-right-fast').src = document.getElementById('slab-url').value.replace('.', '-right.');
+					document.getElementById('slab-preview-left-fast').src = document.getElementById('slab-url').value.replace('.', '-left.');
+					document.getElementById('slab-preview-top-fast').src = document.getElementById('slab-url').value.replace('.', '-top.');
+					document.getElementById('slab-preview-bottom-fast').src = document.getElementById('slab-url').value.replace('.', '-bottom.');
+					document.getElementById('slab-preview-front-fast').src = document.getElementById('slab-url').value.replace('.', '-front.');
+					document.getElementById('slab-preview-back-fast').src = document.getElementById('slab-url').value.replace('.', '-back.')">preview</button>
+					<img src="resource/basic/Test-right.png" id="slab-preview-right-fast" alt='no preview'>
+					<img src="resource/basic/Test-left.png" id="slab-preview-left-fast" alt='no preview'>
+					<img src="resource/basic/Test-top.png" id="slab-preview-top-fast" alt='no preview'>
+					<img src="resource/basic/Test-bottom.png" id="slab-preview-bottom-fast" alt='no preview'>
+					<img src="resource/basic/Test-front.png" id="slab-preview-front-fast" alt='no preview'>
+					<img src="resource/basic/Test-back.png" id="slab-preview-back-fast" alt='no preview'>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<div class="step" style="display: none">
 		<table>
 			<tr>
@@ -158,10 +220,32 @@
 			</tr>
 		</table>
 	</div>
+	<div class="stepOneface" style="display: none">
+		<table>
+			<tr>
+				<td>baseURL</td>
+				<td><input type="url" value="resource/basic/Test.png" id="step-url" class="right"></td>
+				<td><button type="button" onclick="
+					document.getElementById('step-preview-right-fast').src = document.getElementById('step-url').value.replace('.', '-right.');
+					document.getElementById('step-preview-left-fast').src = document.getElementById('step-url').value.replace('.', '-left.');
+					document.getElementById('step-preview-top-fast').src = document.getElementById('step-url').value.replace('.', '-top.');
+					document.getElementById('step-preview-bottom-fast').src = document.getElementById('step-url').value.replace('.', '-bottom.');
+					document.getElementById('step-preview-front-fast').src = document.getElementById('step-url').value.replace('.', '-front.');
+					document.getElementById('step-preview-back-fast').src = document.getElementById('step-url').value.replace('.', '-back.')">preview</button>
+					<img src="resource/basic/Test-right.png" id="step-preview-right-fast" alt='no preview'>
+					<img src="resource/basic/Test-left.png" id="step-preview-left-fast" alt='no preview'>
+					<img src="resource/basic/Test-top.png" id="step-preview-top-fast" alt='no preview'>
+					<img src="resource/basic/Test-bottom.png" id="step-preview-bottom-fast" alt='no preview'>
+					<img src="resource/basic/Test-front.png" id="step-preview-front-fast" alt='no preview'>
+					<img src="resource/basic/Test-back.png" id="step-preview-back-fast" alt='no preview'>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
 preview: <button type="button" onclick="sbmenu_world.previewButton();">update</button>
 <div class="materialPreview">
 
 </div>
-<button type="button" onclick="sbmenu_world.addMaterial();MM.loadSubmenuFiles('modules/multimenu/submenus/world.html')">Add</button>
-<button type="button" id="code" onclick="initPreview([200,200],document.getElementsByClassName('materialPreview')[0], 'test');"></button>
+<button type="button" onclick="file.material.push(sbmenu_world.genMaterial());MM.loadSubmenuFiles('modules/multimenu/submenus/world.html')">Add</button>
+<button type="button" id="code" onclick="initPreview([option.preview.width,option.preview.height],document.getElementsByClassName('materialPreview')[0], 'test');sbmenu_world.displayFaceURLpicker();"></button>

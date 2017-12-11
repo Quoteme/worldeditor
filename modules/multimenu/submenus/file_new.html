@@ -12,7 +12,7 @@
 	</tr>
 	<tr>
 		<td>size (if limited):</td>
-		<td>x:<input type="number" class="size" id="xsize" value="40"><br>y:<input type="number" class="size" id="ysize" value="40"><br>z:<input type="number" class="size" id="zsize" value="40"></td>
+		<td>x:<input type="number" class="size" id="xsize" value="10"><br>y:<input type="number" class="size" id="ysize" value="10"><br>z:<input type="number" class="size" id="zsize" value="10"></td>
 	</tr>
 	<tr>
 		<td>Author:</td>
@@ -23,6 +23,6 @@
 		<td><textarea rows="2" cols="30" class="note"></textarea></td>
 	</tr>
 	<tr>
-		<td><button type="button" onclick="sbmenu_file_new.newMap(); MM.loadSubmenuFiles('modules/multimenu/submenus/world.html')">generate</button></td>
+		<td><button type="button" onclick="sbmenu_file_new.newMap(); MM.loadSubmenuFiles('modules/multimenu/submenus/world.html'); if(typeof missingFileWarning != 'undfined')missingFileWarning.remove();">generate</button></td>
 	</tr>
 </table>

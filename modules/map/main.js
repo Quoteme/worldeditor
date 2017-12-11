@@ -3,7 +3,7 @@ FL.addjs("modules/map/display.js");
 function VoxelMap(p) {
 	this.type = p.type;
 	this.name = p.name;
-	this.athor= p.author;
+	this.author= p.author;
 	this.note = p.note;
 	if (this.type == "limited") {
 		this.size = {};
@@ -27,5 +27,7 @@ function VoxelMap(p) {
 			}
 		}
 	}
-	this.material = [];
+	this.material = [
+		{"name":"test","type":"cube","description":"A simple test block. Can be deleted.","f":{"front":"resource/basic/Test-front.png","back":"resource/basic/Test-back.png","left":"resource/basic/Test-left.png","right":"resource/basic/Test-right.png","top":"resource/basic/Test-top.png","bottom":"resource/basic/Test-bottom.png"},"r":{"x":"0","y":"0","z":"0"},"physics":{}}
+	];
 }

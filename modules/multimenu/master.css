@@ -1,15 +1,25 @@
+:root {
+  --icon-width: 30px;
+}
 .multimenu{
 	position: fixed;
 	z-index: 10;
 	color: black;
-	left: 75%;
+	left: -webkit-calc(100% - var(--icon-width));
+    left:    -moz-calc(100% - var(--icon-width));
+    left:         calc(100% - var(--icon-width));
 	width: 25%;
 	top: 0;
+	transition: ease-in 0.5s;
+}
+.multimenu:hover{
+	left: 75%;
+	transition: ease-out 0.5s;
 }
 .menubtn{
 	vertical-align: top;
 	display: inline-block;
-	width: 28px;
+	width: var(--icon-width);
 }
 .menubtn div{
 	background-color: rgb(50, 50, 50);
@@ -18,11 +28,17 @@
 	align-items: center;
 	transition: 0.5s;
 }
+.menubtn div img{
+	width: var(--icon-width);
+	image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+	image-rendering: pixelated;
+}
 .menuslct{
 	height: 100vh;
-	width: -webkit-calc(100% - 28px);
-	width:    -moz-calc(100% - 28px);
-	width:         calc(100% - 28px);
+	width: -webkit-calc(100% - var(--icon-width));
+	width:    -moz-calc(100% - var(--icon-width));
+	width:         calc(100% - var(--icon-width));
 	background-color: rgb(33, 33, 33);
 	float: right;
 }
