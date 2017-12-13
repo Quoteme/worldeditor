@@ -1,5 +1,3 @@
-FL.addjs("modules/map/display.js");
-
 function VoxelMap(p) {
 	this.type = p.type;
 	this.name = p.name;

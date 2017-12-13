@@ -9,6 +9,7 @@ option = {
 // Files included pre-three.js init
 	FL.addjs("modules/alert/main.js");
 	FL.addjs("modules/map/main.js");
+	FL.addjs("modules/map/display.js");
 	FL.addjs("modules/material/main.js");
 	FL.addjs("modules/multimenu/main.js");
 

@@ -77,8 +77,13 @@ function genMesh(p, size) {
 	return mesh;
 }
 
-function previewBlock(size) {
+function previewBlock(size, output) {
+	// TODO: GET THIS "block preview" to work and return an image, instead of a webgl context
 	// size[0] = x size[1] = y
+	this.size = {
+		"x": size[0],
+		"y": size[1]
+	}
 	this.camera = new THREE.OrthographicCamera( -size[0], size[0], size[1], -size[1], 1, 1000 );
 	this.camera.position.x = 220;
 	this.camera.position.y = 220;
@@ -88,6 +93,8 @@ function previewBlock(size) {
 	this.renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
 	// this.renderer = new THREE.CanvasRenderer();
 	this.renderer.setPixelRatio( window.devicePixelRatio );
+	this.camera.aspect = size[0] / size[1];
+	this.camera.updateProjectionMatrix();
 	this.renderer.setSize( size[0], size[1] );
 
 	this.light = new THREE.AmbientLight( 0xffffff, 0.25 ); // soft white light
@@ -96,13 +103,27 @@ function previewBlock(size) {
 	this.directionalLight.position.set( 0,400,400 );
 	this.scene.add( this.directionalLight );
 
-	this.render = function (mesh) {
-		this.scene.remove(exmpl);
-		var exmpl = mesh;
-		this.scene.add(exmpl);
-		this.renderer.render( this.scene, this.camera );
-		return this.renderer.domElement.toDataURL();
+	if (typeof output != "undefined") {
+		output.appendChild( this.renderer.domElement );
 	}
+	var parent = this;
+	this.image = function (mesh, callback) {
+		parent.scene.remove( parent.test );
+		parent.test = mesh;
+		parent.scene.add( parent.test );
+		setTimeout( function () {
+			parent.render();
+			callback(parent.renderer.domElement.toDataURL());
+		}, 50);
+	}
+	this.render = function () {
+		parent.renderer.render( parent.scene, parent.camera );
+		// requestAnimationFrame(parent.render);
+		if (parent.returnImage == true) {
+			parent.returnImage = false;
+		}
+	}
+	this.render();
 }
 
 function resetScene(s) {
