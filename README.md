@@ -1,12 +1,11 @@
 # Worldeditor
-#### A simple and lightweight voxel editor/creator for your browser
+#### A simple and <b>LIGHTWEIGHT</b> voxel editor/creator for your browser and voxel projects
 
 ![Demo Image](http://i.imgur.com/sf1974J.gif)
 
 ## How to:
 #### Online version
 [Go to the full featured online version](http://htmlpreview.github.io/?https://github.com/Quoteme/worldeditor/blob/master/index.html)
-(work in progress)
 
 #### Local Installation
 download the entire project into a new library and open index.html in your browser (chrome at best)

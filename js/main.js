@@ -8,13 +8,6 @@ option = {
 	"pickedBlock": 1
 };
 
-// Files included pre-three.js init
-	FL.addjs("modules/map/raycast.js");
-	FL.addjs("modules/map/display.js");
-	FL.addjs("modules/map/map.js");
-	FL.addjs("modules/material/main.js");
-	FL.addjs("modules/multimenu/main.js");
-
 // alertify
 	alertify.set('notifier','position', 'top-left');
 
@@ -31,9 +24,9 @@ renderer.shadowMap.enabled = true; // make shadows useable
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-
-// files included after three.js init
-	FL.addjs("modules/keyboard/main.js");
+renderer.domElement.setAttribute("tabIndex", "0");
+renderer.domElement.focus();
+var orbitc = new THREE.OrbitControls( camera, renderer.domElement );
 
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize() {
