@@ -24,7 +24,7 @@
 //
 // # Code
 //
-console.log("test");
+
 /** @namespace */
 var THREEx	= THREEx 		|| {};
 

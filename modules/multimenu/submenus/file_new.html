@@ -23,6 +23,6 @@
 		<td><textarea rows="2" cols="30" class="note"></textarea></td>
 	</tr>
 	<tr>
-		<td><button type="button" onclick="sbmenu_file_new.newMap(); MM.loadSubmenuFiles('modules/multimenu/submenus/world.html'); if(typeof missingFileWarning != 'undfined')missingFileWarning.remove();">generate</button></td>
+		<td><button type="button" onclick="sbmenu_file_new.newMap(); MM.loadSubmenuFiles('modules/multimenu/submenus/world.html',function(){displayMap(file);});">generate</button></td>
 	</tr>
 </table>

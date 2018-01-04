@@ -3,22 +3,31 @@ option = {
 	"preview":{
 		"width": 200,
 		"height": 200
-	}
+	},
+	"gridsize": 10,
+	"pickedBlock": 1
 };
 
 // Files included pre-three.js init
-	FL.addjs("modules/alert/main.js");
-	FL.addjs("modules/map/main.js");
+	FL.addjs("modules/map/raycast.js");
 	FL.addjs("modules/map/display.js");
+	FL.addjs("modules/map/map.js");
 	FL.addjs("modules/material/main.js");
 	FL.addjs("modules/multimenu/main.js");
+
+// alertify
+	alertify.set('notifier','position', 'top-left');
 
 camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 camera.position.z = 400;
 camera.position.y = 200;
 // camera.lookAt(new THREE.Vector3(0,0,0))
 scene = new THREE.Scene();
+	// visualize the world boundaries
+	var gridHelper = new THREE.GridHelper( option.gridsize*option.blocksize, option.blocksize );
+	scene.add( gridHelper );
 renderer = new THREE.WebGLRenderer();
+renderer.shadowMap.enabled = true; // make shadows useable
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
@@ -35,7 +44,6 @@ function onWindowResize() {
 
 // LOOP
 function animate() {
-
 
 	renderer.render( scene, camera );
 	requestAnimationFrame( animate );

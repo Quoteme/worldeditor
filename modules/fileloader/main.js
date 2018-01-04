@@ -1,4 +1,10 @@
 function Fileloader() {
+	this.addcss = function (src) {
+		var imported = document.createElement('link');
+		imported.href = src;
+		console.log("loaded: " + src);
+		document.head.appendChild(imported);
+	}
 	this.addjs = function (src) {
 		var imported = document.createElement('script');
 		imported.src = src;

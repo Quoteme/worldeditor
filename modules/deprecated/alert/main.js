@@ -1,15 +1,23 @@
 Notify = function () {
+	var parent = this;
 	// create an alert in pure html that does not hold js execution
-	this.alert = function(string) {
+	this.alert = function(string,title) {
+		// string = "text you want to have inside the pop-up"
+		// title = title of the pop-up box
 		var parent = this;
 		// set a string and optionally a color
 		// change width / height of the alert with xxx.msg.style.width = yyy;
 		this.bg = document.createElement("DIV");
 		this.msg = document.createElement("DIV");
+		this.msg.className = "notification";
 		this.close = document.createElement("BUTTON");
 		this.close.appendChild(document.createTextNode("×"));
 		this.title = document.createElement("H2");
-		this.title.appendChild(document.createTextNode("Alert by website"));
+		if (typeof title != "undefined") {
+			this.title.appendChild(document.createTextNode(title));
+		}else {
+			this.title.appendChild(document.createTextNode("Alert by website"));
+		}
 		this.t = document.createElement("P");
 		this.t.appendChild(document.createTextNode(string));
 
@@ -45,6 +53,21 @@ Notify = function () {
 
 		this.remove = function() {
 			this.bg.parentElement.removeChild(this.bg);
+		}
+	}
+	this.confirm = function (string, choices, title) {
+		// choices = []
+		// [ ["choice1",function(){...}],["choice2",function(){...}] ]
+		this.base = new parent.alert(string,title);
+		function button(string, callback) {
+			var temp = document.createElement("BUTTON");
+			temp.innerHTML = string;
+			temp.onclick = callback;
+			temp.className = "choiceBtn";
+			return temp;
+		}
+		for (var i = 0; i < choices.length; i++) {
+			this.base.msg.appendChild(button(choices[i][0], choices[i][1]));
 		}
 	}
 }

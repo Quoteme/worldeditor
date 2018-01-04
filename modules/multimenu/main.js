@@ -47,13 +47,22 @@ function Multimenu() {
 	}
 
 	// submenu files
-	this.loadSubmenuFiles = function (name) {
+	this.loadSubmenuFiles = function (name,callback) {
+		console.log("loaded: "+loaded);
+		loaded++;
 		var client = new XMLHttpRequest();
+		var loaded = 0;
 		client.open('GET', name);
 		client.onreadystatechange = function() {
 			parent.container.innerHTML = client.responseText;
-			if (client.responseText.search('id="code"')>=0) {
-				document.getElementById("code").click();
+			if (client.responseText.search('id="code"')>0 && loaded <= 0) {
+				loaded++;
+				setTimeout(function() {
+					document.getElementById("code").click();
+				},1)
+			}
+			if (typeof callback != "undefined") {
+				callback();
 			}
 		}
 		client.send();
@@ -79,7 +88,7 @@ function Multimenu() {
 // vars
 	var MM = new Multimenu();
 	MM.display();
-	PREVIEW = new previewBlock([200,200]);
+	previewBlock = new PREVIEW([200,200]);
 
 var sbmenu_file_new = new Object();
 sbmenu_file_new.newMap = function () {
@@ -98,33 +107,62 @@ sbmenu_file_new.newMap = function () {
 
 function blockOverview(mesh,output) {
 	this.cntnr = document.createElement("div");
-	this.cntnr.style.width = PREVIEW.size.x;
-	this.cntnr.style.height = PREVIEW.size.y;
-	PREVIEW.image(mesh, function (img) {
+	this.cntnr.style.width = previewBlock.size.x;
+	this.cntnr.style.height = previewBlock.size.y;
+	previewBlock.image(mesh, function (img) {
 		this.cntnr.innerHTML = "<img src='"+ img +"'>";
 	})
 	output.appendChild(this.cntnr);
 }
 
+function editMaterial(num) {
+	MM.loadSubmenuFiles("modules/multimenu/submenus/world_addmaterial.html",function() {
+		console.log(file.material[num]);
+		document.getElementsByClassName("name")[0].value = file.material[num].name;
+		document.getElementsByClassName("description")[0].value = file.material[num].description;
+		document.getElementsByClassName("type")[0].value = file.material[num].type;
+		document.getElementsByClassName("xrotatate")[0].value = file.material[num].r.x;
+		document.getElementsByClassName("yrotatate")[0].value = file.material[num].r.y;
+		document.getElementsByClassName("zrotatate")[0].value = file.material[num].r.z;
+		document.getElementById("cube-url-right").value = file.material[num].f.right;
+		document.getElementById("cube-url-left").value = file.material[num].f.left;
+		document.getElementById("cube-url-top").value = file.material[num].f.top;
+		document.getElementById("cube-url-bottom").value = file.material[num].f.bottom;
+		document.getElementById("cube-url-front").value = file.material[num].f.front;
+		document.getElementById("cube-url-back").value = file.material[num].f.back;
+		document.getElementById("opacity").value = file.material[num].opacity;
+		document.getElementById("addButton").innerHTML = "save changes";
+		document.getElementById("addButton").onclick = function () {
+			file.material[num] = sbmenu_world.genMaterial();
+			MM.loadSubmenuFiles('modules/multimenu/submenus/world.html')
+		}
+	});
+}
+
 var sbmenu_world = new Object();
 sbmenu_world.updateOverview = function () {
-	// make all the different materials display up as a choice in the world menu
 	if (typeof file != "undefined") {
-		for (var i = 0; i < file.material.length; i++) {
-			blockOverview(genMesh(file.material[i]),document.getElementsByClassName('overview')[0]);
-			// initPreview([option.preview.width,option.preview.height],document.getElementsByClassName('overview')[0],"preview_"+i);
-			// document.getElementById("preview_"+i).className = "preview";
-			// // add title and description to the preview
-			// var name = document.createElement("div");
-			// name.setAttribute("class", "name");
-			// var note = document.createElement("div");
-			// note.setAttribute("class", "note");
-			// name.appendChild(document.createTextNode(file.material[i].name));
-			// note.appendChild(document.createTextNode(file.material[i].description));
-			// document.getElementById("preview_"+i).appendChild(name);
-			// document.getElementById("preview_"+i).appendChild(note);
-			// updatePreview("preview_"+i,genMesh(file.material[i]));
+		document.getElementsByClassName('overview')[0].innerHTML = "";
+		// make all the different materials display up as a choice in the world menu
+		addOverview(0);
+		// go through all blocks one after the other and add them in
+		function addOverview(number) {
+			if (number<file.material.length) {
+				if (file.material[number]!="") {
+					var mesh = genMesh(file.material[number]);
+					previewBlock.image(mesh, function (img) {
+						// document.getElementsByClassName('overview')[0].innerHTML += "<div class='overviewItem' style='width:"+previewBlock.size.x+"px; height:"+previewBlock.size.y+"px; background-image:url("+img+")'><div class='overviewinnerItem'><span class='name'>"+file.material[number].name+"</span><br>file.material[number].name<span id='description'>"+file.material[number].description+"</span><br><button class='editor' onclick='editMaterial("+number+");' title='edit'><img style='height:14px;' src='modules/multimenu/resource/settings.png'></button><button class='deleter' title='delete' onclick='alertify.confirm(\"Confirm\", \"Are you sure you want to delete this material?\", function(){ alertify.success(\"Deleted succesfully\");removeMaterial("+number+"); }, function(){ alertify.error(\"Not deleted\")});'><img style='height:14px' src='modules/multimenu/resource/delete.png'></button><button class='picker' title='pick this block to draw' onclick='option.pickedBlock = "+(number+1)+"'><img style='height:14px;' src='modules/multimenu/resource/picker.png'></button></div></div><br>";
+
+						document.getElementsByClassName('overview')[0].innerHTML += "<div class='overviewItem' style='background-image:url("+img+")'><div class='overviewinnerItem'><span class='name'>"+file.material[number].name+"</span><br><span id='description'>"+file.material[number].description+"</span><br><button class='editor' onclick='editMaterial("+number+");' title='edit'><img style='height:14px;' src='modules/multimenu/resource/settings.png'></button><button class='deleter' title='delete' onclick='alertify.confirm(\"Confirm\", \"Are you sure you want to delete this material?\", function(){ alertify.success(\"Deleted succesfully\");removeMaterial("+number+"); }, function(){ alertify.error(\"Not deleted\")});'><img style='height:14px' src='modules/multimenu/resource/delete.png'></button><button class='picker' title='pick this block to draw' onclick='option.pickedBlock = "+(number+1)+"'><img style='height:14px;' src='modules/multimenu/resource/picker.png'></button></div></div>";
+						// document.getElementsByClassName('overview')[0].innerHTML += "<button class='picker' title='pick this block to draw'><img style='height:14px;' src='modules/multimenu/resource/picker.png'></button>";
+						// MSG.confirm(\"Are you sure you want to delete this material?\",[[\"Yes\",function(){removeMaterial("+number+");MSG.alert(\"deleted succesfully\");}]]);
+						addOverview(number+1);
+					})
+				}
+			}
 		}
+	}else {
+		alertify.warning('No project has been loaded', 'success', 5, function(){  console.log('dismissed'); })
 	}
 	// file.material[i]
 }
@@ -132,7 +170,7 @@ sbmenu_world.previewButton = function() {
 	previewMaterial = sbmenu_world.genMaterial()
 	var mesh = genMesh(previewMaterial);
 
-	PREVIEW.image(mesh, function (img) {
+	previewBlock.image(mesh, function (img) {
 		document.getElementsByClassName('materialPreview')[0].innerHTML = "<img src='" + img + "' alt='could not create Preview'></a>";
 	})
 }
@@ -153,7 +191,8 @@ sbmenu_world.genMaterial = function () {
 			},
 			"r":{
 				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-			}
+			},
+			"opacity": parseInt(document.getElementById("opacity").value)
 		});
 	}
 	else {
@@ -170,7 +209,8 @@ sbmenu_world.genMaterial = function () {
 			},
 			"r":{
 				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-			}
+			},
+			"opacity": parseInt(document.getElementById("opacity").value)
 		});
 	}
 	return newMaterial;
@@ -185,4 +225,69 @@ sbmenu_world.displayFaceURLpicker = function(){
 	}else {
 		document.getElementsByClassName(document.getElementsByClassName("type")[0].value)[0].style.display = 'block';
 	}
+}
+
+sbmenu_world.addMaterial = function(){
+	var addedToList = false;
+	for (var v in file.material) {
+		if (file.material.hasOwnProperty(v)) {
+			if (file.material[v] == "") {
+				file.material[v] = sbmenu_world.genMaterial();
+				addedToList = true;
+				break;
+			}
+		}
+	}
+	if (!addedToList) {
+		file.material.push(sbmenu_world.genMaterial());
+	}
+}
+
+function downloadMap(){
+	var temp = _.cloneDeep(file);
+	delete temp.meshes;
+	delete temp.samples;
+	temp = JSON.stringify(temp);
+	download("file.json", temp);
+}
+
+function uploadMap() {
+	var selectedFile = document.getElementById('clientjson').files[0];
+	var reader = new FileReader();
+        reader.onload = function(event)
+        {
+            var contents = event.target.result;
+			file = JSON.parse(contents);
+			displayMap(file,scene);
+			alertify.success('Map has been loaded.');
+        };
+
+        reader.readAsText(selectedFile);
+}
+
+// allows for simple download of strings
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
 }
