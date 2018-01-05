@@ -11,6 +11,7 @@
 	spotLight.shadow.mapSize.height = Math.pow(2,11); // default is 512
 	scene.add( spotLight );
 
+var worldGeo;
 function displayMap(m, s){
 	// m = map/world/ voxelmap
 	// s = scene
@@ -21,15 +22,10 @@ function displayMap(m, s){
 	if (typeof s.getObjectByName("worldGeo") != "undefined") {
 		s.remove(s.getObjectByName("worldGeo"));
 	}
-	s.remove(gridHelper);
-	option.gridsize = Math.max(m.size.x,m.size.y);
-	gridHelper = new THREE.GridHelper( option.gridsize*option.blocksize, option.blocksize );
-	scene.add( gridHelper );
-
 	m.meshes = [];
 	var geometry = new THREE.BoxBufferGeometry( option.blocksize, option.blocksize, option.blocksize );
 	var material = new THREE.MeshBasicMaterial( { color: 0xffbbaa } );
-	var worldGeo = new THREE.Group;
+	worldGeo = new THREE.Group;
 	worldGeo.name = "worldGeo";
 	if (m.type == "limited") {
 		m.meshes = new Array(m.data.length);
@@ -43,54 +39,7 @@ function displayMap(m, s){
 						m.data[x][y][z] = 0;
 					}
 					else if (m.data[x][y][z] != 0) {
-						m.meshes[x][y][z] = genMesh(m.material[m.data[x][y][z]-1],[option.blocksize,option.blocksize,option.blocksize]);
-						// remove faces that are blocked by other blocks
-							if (typeof m.data[x+1] != "undefined") {
-								if (m.data[x+1][y][z] != 0) {
-									if (m.material[m.data[x+1][y][z]-1].opacity == 1 || m.data[x+1][y][z] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[0].visible = false;
-									}
-								}
-							}
-							if (typeof m.data[x-1] != "undefined") {
-								if (m.data[x-1][y][z] != 0) {
-									if (m.material[m.data[x-1][y][z]-1].opacity == 1 || m.data[x-1][y][z] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[1].visible = false;
-									}
-								}
-							}
-							if (typeof m.data[x][y+1] != "undefined") {
-								if (m.data[x][y+1][z] != 0) {
-									if (m.material[m.data[x][y+1][z]-1].opacity == 1 || m.data[x][y+1][z] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[2].visible = false;
-									}
-								}
-							}
-							if (typeof m.data[x][y-1] != "undefined") {
-								if (m.data[x][y-1][z] != 0) {
-									if (m.material[m.data[x][y-1][z]-1].opacity == 1 || m.data[x][y-1][z] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[3].visible = false;
-									}
-								}
-							}
-							if (typeof m.data[x][y][z+1] != "undefined") {
-								if (m.data[x][y][z+1] != 0) {
-									if (m.material[m.data[x][y][z+1]-1].opacity == 1 || m.data[x][y][z+1] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[4].visible = false;
-									}
-								}
-							}
-							if (typeof m.data[x][y][z-1] != "undefined") {
-								if (m.data[x][y][z-1] != 0) {
-									if (m.material[m.data[x][y][z-1]-1].opacity == 1 || m.data[x][y][z-1] == m.data[x][y][z]) {
-										m.meshes[x][y][z].material[5].visible = false;
-									}
-								}
-							}
-						m.meshes[x][y][z].castShadow = true;
-						m.meshes[x][y][z].receiveShadow = true;
-						m.meshes[x][y][z].position.set(option.blocksize*x-((m.size.x/2)*option.blocksize-option.blocksize/2),option.blocksize*y+option.blocksize/2,option.blocksize*z-((m.size.z/2)*option.blocksize-option.blocksize/2));
-						worldGeo.add(m.meshes[x][y][z]);
+						addCube(m,m.data[x][y][z],x,y,z,false);
 					}
 				}
 			}
@@ -99,6 +48,130 @@ function displayMap(m, s){
 	}else {
 		console.warn("unsupported map.type. Couldn't load map");
 	}
+}
+
+function addCube(m,type,x,y,z,neighbourCheck) {
+	// neighbourcheck checks the voxels around a given voxel for shared faces and makes them invisible if needed
+	if (typeof neighbourCheck == "undefined") {
+		neighbourCheck = true;
+	}
+	m.data[x][y][z] = type;
+	m.meshes[x][y][z] = genMesh(m.material[type-1],[option.blocksize,option.blocksize,option.blocksize]);
+	m.meshes[x][y][z].coord = [x,y,z];
+	// remove faces that are blocked by other blocks
+		if (typeof m.data[x+1] != "undefined") {
+			if (m.data[x+1][y][z] != 0) {
+				if (m.material[m.data[x+1][y][z]-1].opacity == 1 || m.data[x+1][y][z] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[0].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x+1][y][z].material[1].visible = false;
+					}
+				}
+			}
+		}
+		if (typeof m.data[x-1] != "undefined") {
+			if (m.data[x-1][y][z] != 0) {
+				if (m.material[m.data[x-1][y][z]-1].opacity == 1 || m.data[x-1][y][z] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[1].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x-1][y][z].material[0].visible = false;
+					}
+				}
+			}
+		}
+		if (typeof m.data[x][y+1] != "undefined") {
+			if (m.data[x][y+1][z] != 0) {
+				if (m.material[m.data[x][y+1][z]-1].opacity == 1 || m.data[x][y+1][z] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[2].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x][y+1][z].material[3].visible = false;
+					}
+				}
+			}
+		}
+		if (typeof m.data[x][y-1] != "undefined") {
+			if (m.data[x][y-1][z] != 0) {
+				if (m.material[m.data[x][y-1][z]-1].opacity == 1 || m.data[x][y-1][z] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[3].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x][y-1][z].material[2].visible = false;
+					}
+				}
+			}
+		}
+		if (typeof m.data[x][y][z+1] != "undefined") {
+			if (m.data[x][y][z+1] != 0) {
+				if (m.material[m.data[x][y][z+1]-1].opacity == 1 || m.data[x][y][z+1] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[4].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x][y][z+1].material[5].visible = false;
+					}
+				}
+			}
+		}
+		if (typeof m.data[x][y][z-1] != "undefined") {
+			if (m.data[x][y][z-1] != 0) {
+				if (m.material[m.data[x][y][z-1]-1].opacity == 1 || m.data[x][y][z-1] == m.data[x][y][z]) {
+					m.meshes[x][y][z].material[5].visible = false;
+					if (neighbourCheck) {
+						m.meshes[x][y][z-1].material[4].visible = false;
+					}
+				}
+			}
+		}
+	m.meshes[x][y][z].castShadow = true;
+	m.meshes[x][y][z].receiveShadow = true;
+	m.meshes[x][y][z].position.set(option.blocksize*x-((m.size.x/2)*option.blocksize-option.blocksize/2),option.blocksize*y+option.blocksize/2,option.blocksize*z-((m.size.z/2)*option.blocksize-option.blocksize/2));
+	worldGeo.add(m.meshes[x][y][z]);
+}
+
+function removeCube(m,x,y,z) {
+	m.data[x][y][z] = 0;
+	if (x-1 >= 0) {
+		if (m.data[x-1][y][z] != 0) {
+			m.meshes[x-1][y][z].material[0].visible = true;
+		}
+	}
+	if (x+1 <= m.size.x) {
+		if (m.data[x+1][y][z] != 0) {
+			m.meshes[x+1][y][z].material[1].visible = true;
+		}
+	}
+	if (y-1 >= 0) {
+		if (m.data[x][y-1][z] != 0) {
+			m.meshes[x][y-1][z].material[2].visible = true;
+		}
+	}
+	if (y-1 <= m.size.y) {
+		if (m.data[x][y+1][z] != 0) {
+			m.meshes[x][y+1][z].material[3].visible = true;
+		}
+	}
+	if (z-1 >= 0) {
+		if (m.data[x][y][z-1] != 0) {
+			m.meshes[x][y][z-1].material[4].visible = true;
+		}
+	}
+	if (z-1 <= file.size.z) {
+		if (m.data[x][y][z+1] != 0) {
+			m.meshes[x][y][z+1].material[5].visible = true;
+		}
+	}
+	delete file.meshes[x][y][z];
+	worldGeo.remove(worldGeo.children[findMesh(x,y,z)]);
+}
+
+// returns the place of a cube inside the "worldGeo" array, just by looking at its position
+function findMesh(x,y,z) {
+	var tmp;
+	for (var i = 0; i < worldGeo.children.length; i++) {
+		if (worldGeo.children[i].coord[0] == x &&
+			worldGeo.children[i].coord[1] == y &&
+			worldGeo.children[i].coord[2] == z) {
+			tmp = i;
+		}
+	}
+	return tmp;
 }
 
 function genMesh(p, size) {

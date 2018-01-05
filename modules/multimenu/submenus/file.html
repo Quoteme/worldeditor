@@ -4,7 +4,16 @@
 	<button type="button" name="button" onclick='MM.loadSubmenuFiles("modules/multimenu/submenus/file_new.html")'>new</button>
 </div>
 
-<span>encode and store images in JSON?(bigger filesize and slower, but offline availeable):</span><input id="storeImage" type="checkbox" value="">
+<table>
+	<tr>
+		<td>Store images in json:</td>
+		<td><input id="storeImage" type="checkbox" value=""></td>
+	</tr>
+	<tr>
+		<td>show grid helper:</td>
+		<td><input type="checkbox" checked onchange="gridHelper.material.visible = !gridHelper.material.visible;"></td>
+	</tr>
+</table>
 <div class="author">
 	©Luca Leon Happel 2017
 </div>

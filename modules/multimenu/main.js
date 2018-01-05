@@ -259,10 +259,21 @@ function uploadMap() {
             var contents = event.target.result;
 			file = JSON.parse(contents);
 			displayMap(file,scene);
+			helperGrid(file.size.x,file.size.y);
+
 			alertify.success('Map has been loaded.');
         };
 
         reader.readAsText(selectedFile);
+}
+
+function helperGrid(x,y) {
+	if (typeof gridHelper != "undefined") {
+		scene.remove(gridHelper);
+	}
+	gridHelper = new THREE.Mesh( new THREE.PlaneGeometry( option.blocksize*x, option.blocksize*y, x, y ), new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side: THREE.DoubleSide, wireframe: true} ) );
+	gridHelper.rotation.x = Math.PI/2;
+	scene.add( gridHelper );
 }
 
 // allows for simple download of strings

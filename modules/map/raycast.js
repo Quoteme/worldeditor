@@ -3,7 +3,7 @@ mouse = new THREE.Vector2();
 previousMouse = [];
 
 renderer.domElement.oncontextmenu = function (){return false};
-renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
+// renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
 renderer.domElement.addEventListener( 'mousedown', onDocumentMouseDown, false );
 renderer.domElement.addEventListener( 'mouseup', onDocumentMouseUp, false );
 
@@ -37,9 +37,7 @@ function onDocumentMouseUp( event ) {
 		var intersect = intersects[ 0 ];
 		// delete cube
 		if ( event.which == 3) {
-			file.data[intersect.object.coord[0]][intersect.object.coord[1]][intersect.object.coord[2]] = 0;
-			console.log(intersect.object.coord[0]+"|"+intersect.object.coord[1]+"|"+intersect.object.coord[2]+" removed");
-			displayMap(file);
+			removeCube(file, intersect.object.coord[0], intersect.object.coord[1], intersect.object.coord[2]);
 		// create cube
 		} else {
 			var clickedPoint = {
@@ -50,16 +48,23 @@ function onDocumentMouseUp( event ) {
 			if ((intersect.point.x/option.blocksize)%1==0 && file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] != 0) { // /right/left edge
 				clickedPoint.x--;
 			}
+			if ((intersect.point.y/option.blocksize)%1==0 && file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] != 0) { // front/back edge
+				clickedPoint.y--;
+			}
 			if ((intersect.point.z/option.blocksize)%1==0 && file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] != 0) { // front/back edge
 				clickedPoint.z--;
 			}
+			console.log(clickedPoint);
+			console.log(intersect.point);
+			console.log("___");
 			// console.log("x: "+clickedPoint.x+" y: "+clickedPoint.y+" z: "+clickedPoint.z);
 			if (clickedPoint.x >= 0 && clickedPoint.x < file.size.x &&
 				clickedPoint.y >= 0 && clickedPoint.y < file.size.y &&
 				clickedPoint.z >= 0 && clickedPoint.z < file.size.z) {
-					file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] = option.pickedBlock;
+					// file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] = option.pickedBlock;
+					addCube(file,option.pickedBlock,clickedPoint.x,clickedPoint.y,clickedPoint.z);
 			}
-			displayMap(file);
+			// displayMap(file);
 			// voxel.position.copy( intersect.point ).add( intersect.face.normal );
 			// voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
 		}

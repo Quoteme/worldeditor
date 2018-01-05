@@ -4,7 +4,6 @@ option = {
 		"width": 200,
 		"height": 200
 	},
-	"gridsize": 10,
 	"pickedBlock": 1
 };
 
@@ -16,9 +15,7 @@ camera.position.z = 400;
 camera.position.y = 200;
 // camera.lookAt(new THREE.Vector3(0,0,0))
 scene = new THREE.Scene();
-	// visualize the world boundaries
-	var gridHelper = new THREE.GridHelper( option.gridsize*option.blocksize, option.blocksize );
-	scene.add( gridHelper );
+// helperGrid(10,10);
 renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true; // make shadows useable
 renderer.setPixelRatio( window.devicePixelRatio );
