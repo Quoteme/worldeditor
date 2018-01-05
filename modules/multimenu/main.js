@@ -192,7 +192,7 @@ sbmenu_world.genMaterial = function () {
 			"r":{
 				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
 			},
-			"opacity": parseInt(document.getElementById("opacity").value)
+			"opacity": parseFloat(document.getElementById("opacity").value)
 		});
 	}
 	else {
@@ -210,7 +210,7 @@ sbmenu_world.genMaterial = function () {
 			"r":{
 				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
 			},
-			"opacity": parseInt(document.getElementById("opacity").value)
+			"opacity": parseFloat(document.getElementById("opacity").value)
 		});
 	}
 	return newMaterial;

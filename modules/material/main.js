@@ -17,7 +17,7 @@ Material.cube = function (p) {
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
-	this.opacity = p.opacity | 1;
+	this.opacity = p.opacity;
 	// physics
 	this.physics = new PhysicsObj();
 }
@@ -35,7 +35,7 @@ Material.plane = function (p) {
 	this.f = {"front":p.f.front, "back": p.f.back};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
-	this.opacity = p.opacity | 1;
+	this.opacity = p.opacity;
 	// physics
 	this.physics = new PhysicsObj();
 }
@@ -52,7 +52,7 @@ Material.slap = function (p) {
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
-	this.opacity = p.opacity | 1;
+	this.opacity = p.opacity;
 	// physics
 	this.physics = new PhysicsObj();
 }
@@ -71,7 +71,7 @@ Material.step = function (p) {
 	this.f = {"front":p.f.front, "back": p.f.back, "left": p.f.left, "right": p.f.right, "top": p.f.top, "bottom": p.f.bottom};
 	// rotation
 	this.r = new RotationMatrix(p.r.x, p.r.y, p.r.z);
-	this.opacity = p.opacity | 1;
+	this.opacity = p.opacity;
 	// physics
 	this.physics = new PhysicsObj();
 }
