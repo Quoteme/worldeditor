@@ -1,17 +1,21 @@
 <div class="fileoptions">
-	<input type="file" id="clientjson"><button type="button" name="button" onclick="uploadMap();">load</button>
+	<input type="file" id="clientjson" style="display:none" onchange="uploadMap();"><button type="button" name="button" onclick="document.getElementById('clientjson').click();">load</button>
 	<button type="button" name="button" onclick="downloadMap()">save</button>
 	<button type="button" name="button" onclick='MM.loadSubmenuFiles("modules/multimenu/submenus/file_new.html")'>new</button>
 </div>
 
 <table>
 	<tr>
-		<td>Store images in json:</td>
-		<td><input id="storeImage" type="checkbox" value=""></td>
-	</tr>
-	<tr>
 		<td>show grid helper:</td>
 		<td><input type="checkbox" checked onchange="gridHelper.material.visible = !gridHelper.material.visible;"></td>
+	</tr>
+	<tr>
+		<td>use shadows:</td>
+		<td><input type="checkbox" checked onchange="renderer.shadowMap.enabled = false;displayMap(file, scene);"></td>
+	</tr>
+	<tr>
+		<td>rerender scene(can fix some bugs):</td>
+		<td><input type="button" onclick="displayMap(file, scene)" value="X"></td>
 	</tr>
 </table>
 <div class="author">

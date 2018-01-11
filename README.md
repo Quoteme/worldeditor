@@ -2,15 +2,15 @@
 #### A simple and <b>LIGHTWEIGHT</b> voxel editor/creator for your browser and voxel projects
 
 ![Demo Image](http://i.imgur.com/sf1974J.gif)
+![Demo 2](https://i.imgur.com/7jGLjk5.png)
 
 ## How to:
 #### Online version
 [Go to the full featured online version](http://htmlpreview.github.io/?https://github.com/Quoteme/worldeditor/blob/master/index.html)
 
 #### Local Installation
-download the entire project into a new library and open index.html in your browser (chrome at best)
-(note: In order to use minecraft textures just download a resourcepack and export the content of "/assets/minecraft/textures/blocks/" to some host for these textures to link to)
-![example](https://i.imgur.com/7jGLjk5.png)
+download the entire project and open index.html in your browser (chrome at best)
+the "resource" folder can be deleted, because textures are stored in the map files
 
 ## Loading maps into other projects
 #### Requirements:

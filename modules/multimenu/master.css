@@ -13,7 +13,7 @@
 	transition: ease-in 0.5s;
 }
 .multimenu:hover{
-	left: 75%;
+    left: 75%;
 	transition: ease-out 0.5s;
 }
 .menubtn{
@@ -23,7 +23,7 @@
 }
 .menubtn div{
 	background-color: rgb(50, 50, 50);
-	height: 50px;
+	height: 45px;
 	display: flex;
 	align-items: center;
 	transition: 0.5s;
@@ -50,9 +50,9 @@
 	font-size: 24px;
 }
 #selected{
-	height: 75px;
+	height: 85px;
 	background-color: rgb(59, 59, 59);
-	border-bottom-left-radius: 15px;
+	/*border-bottom-left-radius: 15px;*/
 }
 .container{
 	padding: 10px;
@@ -78,6 +78,11 @@ hr{
 }
 .overview{
 	width: 100%;
+    max-height: 350px;
+    overflow: auto;
+}
+.overview::-webkit-scrollbar {
+    display: none;
 }
 #code{
 	display: none;

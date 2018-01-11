@@ -14,6 +14,7 @@ function Multimenu() {
 		parent[name].setAttribute("class", name);
 		parent[name + "img"] = document.createElement("img");
 		parent[name + "img"].src = icon;
+		parent[name + "img"].title = name;
 		parent[name].appendChild(parent[name + "img"]);
 		parent.menubtn.appendChild(parent[name]);
 		parent[name].onclick = function () {parent.switchMenu(this)};
@@ -175,44 +176,34 @@ sbmenu_world.previewButton = function() {
 	})
 }
 
+sbmenu_world.loadImg = function (e, callback) {
+	var fr = new FileReader();
+        fr.onload = function () {
+            var tmp = new Image();
+			tmp.src = fr.result;
+			callback(tmp)
+        }
+        fr.readAsDataURL(e.files[0]);
+}
+
 sbmenu_world.genMaterial = function () {
 	// if a user can load a map of textures, just by giving the general name (ie. "test", instead of "test-right", "test-top", "...")
-	if (document.getElementsByClassName("indiviudalTextures")[0].checked) {
-		var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
-			"name": document.getElementsByClassName("name")[0].value,
-			"description": document.getElementsByClassName("description")[0].value,
-			"f":{
-				"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-right.'),
-				"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-left.'),
-				"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-top.'),
-				"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-bottom.'),
-				"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-front.'),
-				"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url").value.replace('.', '-back.')
-			},
-			"r":{
-				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-			},
-			"opacity": parseFloat(document.getElementById("opacity").value)
-		});
-	}
-	else {
-		var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
-			"name": document.getElementsByClassName("name")[0].value,
-			"description": document.getElementsByClassName("description")[0].value,
-			"f":{
-				"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-right").value,
-				"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-left").value,
-				"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-top").value,
-				"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-bottom").value,
-				"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-front").value,
-				"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-url-back").value
-			},
-			"r":{
-				"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
-			},
-			"opacity": parseFloat(document.getElementById("opacity").value)
-		});
-	}
+	var newMaterial = new Material[document.getElementsByClassName('type')[0].value]({
+		"name": document.getElementsByClassName("name")[0].value,
+		"description": document.getElementsByClassName("description")[0].value,
+		"f":{
+			"right": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-right").src,
+			"left": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-left").src,
+			"top": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-top").src,
+			"bottom": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-bottom").src,
+			"front": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-front").src,
+			"back": document.getElementById(document.getElementsByClassName('type')[0].value+"-prev-back").src
+		},
+		"r":{
+			"x":document.getElementsByClassName("xrotatate")[0].value, "y":document.getElementsByClassName("yrotatate")[0].value, "z":document.getElementsByClassName("zrotatate")[0].value
+		},
+		"opacity": parseFloat(document.getElementById("opacity").value)
+	});
 	return newMaterial;
 }
 
@@ -220,11 +211,7 @@ sbmenu_world.displayFaceURLpicker = function(){
 	for (var i = 0; i < document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div').length; i++) {
 		document.getElementsByClassName('specificSettings')[0].getElementsByTagName('div')[i].style.display = 'none';
 	}
-	if (document.getElementsByClassName("indiviudalTextures")[0].checked) {
-		document.getElementsByClassName(document.getElementsByClassName("type")[0].value + "Oneface")[0].style.display = 'block';
-	}else {
-		document.getElementsByClassName(document.getElementsByClassName("type")[0].value)[0].style.display = 'block';
-	}
+	document.getElementsByClassName(document.getElementsByClassName("type")[0].value)[0].style.display = 'block';
 }
 
 sbmenu_world.addMaterial = function(){
@@ -259,7 +246,7 @@ function uploadMap() {
             var contents = event.target.result;
 			file = JSON.parse(contents);
 			displayMap(file,scene);
-			helperGrid(file.size.x,file.size.y);
+			helperGrid(file.size.x,file.size.z);
 
 			alertify.success('Map has been loaded.');
         };
@@ -267,11 +254,11 @@ function uploadMap() {
         reader.readAsText(selectedFile);
 }
 
-function helperGrid(x,y) {
+function helperGrid(x,z) {
 	if (typeof gridHelper != "undefined") {
 		scene.remove(gridHelper);
 	}
-	gridHelper = new THREE.Mesh( new THREE.PlaneGeometry( option.blocksize*x, option.blocksize*y, x, y ), new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side: THREE.DoubleSide, wireframe: true} ) );
+	gridHelper = new THREE.Mesh( new THREE.PlaneGeometry( option.blocksize*x, option.blocksize*z, x, z ), new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side: THREE.DoubleSide, wireframe: true} ) );
 	gridHelper.rotation.x = Math.PI/2;
 	scene.add( gridHelper );
 }

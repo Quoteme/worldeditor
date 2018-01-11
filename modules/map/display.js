@@ -132,7 +132,7 @@ function removeCube(m,x,y,z) {
 			m.meshes[x-1][y][z].material[0].visible = true;
 		}
 	}
-	if (x+1 <= m.size.x) {
+	if (x+1 < m.size.x) {
 		if (m.data[x+1][y][z] != 0) {
 			m.meshes[x+1][y][z].material[1].visible = true;
 		}
@@ -142,7 +142,7 @@ function removeCube(m,x,y,z) {
 			m.meshes[x][y-1][z].material[2].visible = true;
 		}
 	}
-	if (y-1 <= m.size.y) {
+	if (y-1 < m.size.y) {
 		if (m.data[x][y+1][z] != 0) {
 			m.meshes[x][y+1][z].material[3].visible = true;
 		}
@@ -152,7 +152,7 @@ function removeCube(m,x,y,z) {
 			m.meshes[x][y][z-1].material[4].visible = true;
 		}
 	}
-	if (z-1 <= file.size.z) {
+	if (z-1 < file.size.z) {
 		if (m.data[x][y][z+1] != 0) {
 			m.meshes[x][y][z+1].material[5].visible = true;
 		}
@@ -257,8 +257,7 @@ function PREVIEW(size, output) {
 	this.render();
 }
 
-function resetScene(s) {
-	s.children.forEach(function(object){
-	    s.remove(object);
-	});
+function updateDisplay(m,s) {
+	displayMap(m, s);
+	helperGrid(m.size.x,m.size.z);
 }

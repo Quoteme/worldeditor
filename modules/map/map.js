@@ -25,3 +25,29 @@ function VoxelMap(p) {
 		{"name":"test","type":"cube","description":"A simple test block. Can be deleted.","f":{"front":"resource/basic/Test-front.png","back":"resource/basic/Test-back.png","left":"resource/basic/Test-left.png","right":"resource/basic/Test-right.png","top":"resource/basic/Test-top.png","bottom":"resource/basic/Test-bottom.png"},"r":{"x":"0","y":"0","z":"0"},"physics":{}}
 	];
 }
+
+function resizeMap (m,p) {
+	// m = map file
+	// p = [x,y,z] (number to increase or decrease each dimension)
+	var tmp;
+	tmp = new Array(m.size.x+p[0]);
+	for (var x = 0; x < tmp.length; x++) {
+		tmp[x] = new Array(m.size.y+p[1]);
+		for (var y = 0; y < tmp[x].length; y++) {
+			tmp[x][y] = new Array(m.size.z+p[2])
+			for (var z = 0; z < tmp[x][y].length; z++) {
+				if (typeof m.data[x] != "undefined") {
+					if (typeof m.data[x][y] != "undefined") {
+						if (typeof m.data[x][y][z] != "undefined") {
+							tmp[x][y][z] = m.data[x][y][z];
+						}else{tmp[x][y][z] = 0;}
+					}else{tmp[x][y][z] = 0;}
+				}else{tmp[x][y][z] = 0;}
+			}
+		}
+	}
+	m.data = tmp;
+	m.size.x += p[0];
+	m.size.y += p[1];
+	m.size.z += p[2];
+}

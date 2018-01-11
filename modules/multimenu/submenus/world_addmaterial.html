@@ -44,65 +44,39 @@
 		<td>Opacity</td>
 		<td><input type="number" id="opacity" value="1" step="0.01"></td>
 	</tr>
-	<tr>
-		<td>individual face textures:</td>
-		<td><input type="checkbox" onchange="sbmenu_world.displayFaceURLpicker()" class='indiviudalTextures' title="if checked, you can pic a tecture for each face of the material. If left untouched, you can faster choose a preset"></td>
-	</tr>
 </table>
 <div class="specificSettings">
 	<div class="cube" style="display: none">
 		<table>
 			<tr>
 				<td>right</td>
-				<td><input type="url" value="resource/basic/Test-right.png" id="cube-url-right" class="right"></td>
-				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('cube-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
+				<td><input type="file" id="cube-file-right" class="right" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-right').src = e.src})"></td>
+				<td><img id="cube-prev-right" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>left</td>
-				<td><input type="url" value="resource/basic/Test-left.png" id="cube-url-left" class="left"></td>
-				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('cube-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
+				<td><input type="file" id="cube-file-left" class="left" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-left').src = e.src})"></td>
+				<td><img id="cube-prev-left" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>top</td>
-				<td><input type="url" value="resource/basic/Test-top.png" id="cube-url-top" class="top"></td>
-				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('cube-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
+				<td><input type="file" id="cube-file-top" class="top" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-top').src = e.src})"></td>
+				<td><img id="cube-prev-top" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>bottom</td>
-				<td><input type="url" value="resource/basic/Test-bottom.png" id="cube-url-bottom" class="bottom"></td>
-				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('cube-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+				<td><input type="file" id="cube-file-bottom" class="bottom" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-bottom').src = e.src})"></td>
+				<td><img id="cube-prev-bottom" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>front</td>
-				<td><input type="url" value="resource/basic/Test-front.png" id="cube-url-front" class="front"></td>
-				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('cube-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+				<td><input type="file" id="cube-file-front" class="front" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-front').src = e.src})"></td>
+				<td><img id="cube-prev-front" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>back</td>
-				<td><input type="url" value="resource/basic/Test-back.png" id="cube-url-back" class="back"></td>
-				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('cube-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
-			</tr>
-		</table>
-	</div>
-	<div class="cubeOneface" style="display: none">
-		<table>
-			<tr>
-				<td>baseURL</td>
-				<td><input type="url" value="resource/basic/Test.png" id="cube-url" class="right"></td>
-				<td><button type="button" onclick="
-					document.getElementById('cube-preview-right-fast').src = document.getElementById('cube-url').value.replace('.', '-right.');
-					document.getElementById('cube-preview-left-fast').src = document.getElementById('cube-url').value.replace('.', '-left.');
-					document.getElementById('cube-preview-top-fast').src = document.getElementById('cube-url').value.replace('.', '-top.');
-					document.getElementById('cube-preview-bottom-fast').src = document.getElementById('cube-url').value.replace('.', '-bottom.');
-					document.getElementById('cube-preview-front-fast').src = document.getElementById('cube-url').value.replace('.', '-front.');
-					document.getElementById('cube-preview-back-fast').src = document.getElementById('cube-url').value.replace('.', '-back.')">preview</button>
-					<img src="resource/basic/Test-right.png" id="cube-preview-right-fast" alt='no preview'>
-					<img src="resource/basic/Test-left.png" id="cube-preview-left-fast" alt='no preview'>
-					<img src="resource/basic/Test-top.png" id="cube-preview-top-fast" alt='no preview'>
-					<img src="resource/basic/Test-bottom.png" id="cube-preview-bottom-fast" alt='no preview'>
-					<img src="resource/basic/Test-front.png" id="cube-preview-front-fast" alt='no preview'>
-					<img src="resource/basic/Test-back.png" id="cube-preview-back-fast" alt='no preview'>
-				</td>
+				<td><input type="file" id="cube-file-back" class="back" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('cube-prev-back').src = e.src})"></td>
+				<td><img id="cube-prev-back" style="width: 16px; height: 16px"></td>
 			</tr>
 		</table>
 	</div>
@@ -110,27 +84,13 @@
 		<table>
 			<tr>
 				<td>front</td>
-				<td><input type="url" value="resource/basic/Test-front.png" id="plane-url-front" class="front"></td>
-				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('plane-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+				<td><input type="file" id="plane-file-front" class="front" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('plane-prev-front').src = e.src})"></td>
+				<td><img id="plane-prev-front" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>back</td>
-				<td><input type="url" value="resource/basic/Test-back.png" id="plane-url-back" class="back"></td>
-				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('plane-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
-			</tr>
-		</table>
-	</div>
-	<div class="planeOneface" style="display: none">
-		<table>
-			<tr>
-				<td>baseURL</td>
-				<td><input type="url" value="resource/basic/Test.png" id="plane-url" class="right"></td>
-				<td><button type="button" onclick="
-					document.getElementById('plane-preview-front-fast').src = document.getElementById('plane-url').value.replace('.', '-front.');
-					document.getElementById('plane-preview-back-fast').src = document.getElementById('plane-url').value.replace('.', '-back.')">preview</button>
-					<img src="resource/basic/Test-front.png" id="plane-preview-front-fast" alt='no preview'>
-					<img src="resource/basic/Test-back.png" id="plane-preview-back-fast" alt='no preview'>
-				</td>
+				<td><input type="file" id="plane-file-back" class="back" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('plane-prev-back').src = e.src})"></td>
+				<td><img id="plane-prev-back" style="width: 16px; height: 16px"></td>
 			</tr>
 		</table>
 	</div>
@@ -138,55 +98,33 @@
 		<table>
 			<tr>
 				<td>right</td>
-				<td><input type="url" value="resource/basic/Test-right.png" id="slab-url-right" class="right"></td>
-				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('slab-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
+				<td><input type="file" id="slab-file-right" class="right" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-right').src = e.src})"></td>
+				<td><img id="slab-prev-right" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>left</td>
-				<td><input type="url" value="resource/basic/Test-left.png" id="slab-url-left" class="left"></td>
-				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('slab-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
+				<td><input type="file" id="slab-file-left" class="left" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-left').src = e.src})"></td>
+				<td><img id="slab-prev-left" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>top</td>
-				<td><input type="url" value="resource/basic/Test-top.png" id="slab-url-top" class="top"></td>
-				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('slab-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
+				<td><input type="file" id="slab-file-top" class="top" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-top').src = e.src})"></td>
+				<td><img id="slab-prev-top" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>bottom</td>
-				<td><input type="url" value="resource/basic/Test-bottom.png" id="slab-url-bottom" class="bottom"></td>
-				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('slab-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+				<td><input type="file" id="slab-file-bottom" class="bottom" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-bottom').src = e.src})"></td>
+				<td><img id="slab-prev-bottom" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>front</td>
-				<td><input type="url" value="resource/basic/Test-front.png" id="slab-url-front" class="front"></td>
-				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('slab-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+				<td><input type="file" id="slab-file-front" class="front" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-front').src = e.src})"></td>
+				<td><img id="slab-prev-front" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>back</td>
-				<td><input type="url" value="resource/basic/Test-back.png" id="slab-url-back" class="back"></td>
-				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('slab-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
-			</tr>
-		</table>
-	</div>
-	<div class="slabOneface" style="display: none">
-		<table>
-			<tr>
-				<td>baseURL</td>
-				<td><input type="url" value="resource/basic/Test.png" id="slab-url" class="right"></td>
-				<td><button type="button" onclick="
-					document.getElementById('slab-preview-right-fast').src = document.getElementById('slab-url').value.replace('.', '-right.');
-					document.getElementById('slab-preview-left-fast').src = document.getElementById('slab-url').value.replace('.', '-left.');
-					document.getElementById('slab-preview-top-fast').src = document.getElementById('slab-url').value.replace('.', '-top.');
-					document.getElementById('slab-preview-bottom-fast').src = document.getElementById('slab-url').value.replace('.', '-bottom.');
-					document.getElementById('slab-preview-front-fast').src = document.getElementById('slab-url').value.replace('.', '-front.');
-					document.getElementById('slab-preview-back-fast').src = document.getElementById('slab-url').value.replace('.', '-back.')">preview</button>
-					<img src="resource/basic/Test-right.png" id="slab-preview-right-fast" alt='no preview'>
-					<img src="resource/basic/Test-left.png" id="slab-preview-left-fast" alt='no preview'>
-					<img src="resource/basic/Test-top.png" id="slab-preview-top-fast" alt='no preview'>
-					<img src="resource/basic/Test-bottom.png" id="slab-preview-bottom-fast" alt='no preview'>
-					<img src="resource/basic/Test-front.png" id="slab-preview-front-fast" alt='no preview'>
-					<img src="resource/basic/Test-back.png" id="slab-preview-back-fast" alt='no preview'>
-				</td>
+				<td><input type="file" id="slab-file-back" class="back" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('slab-prev-back').src = e.src})"></td>
+				<td><img id="slab-prev-back" style="width: 16px; height: 16px"></td>
 			</tr>
 		</table>
 	</div>
@@ -194,55 +132,33 @@
 		<table>
 			<tr>
 				<td>right</td>
-				<td><input type="url" value="resource/basic/Test-right.png" id="step-url-right" class="right"></td>
-				<td><button type="button" onclick="document.getElementById('preview-right').src = document.getElementById('step-url-right').value">preview</button><img src="resource/basic/Test-right.png" id="preview-right" alt='no preview'></td>
+				<td><input type="file" id="step-file-right" class="right" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-right').src = e.src})"></td>
+				<td><img id="step-prev-right" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>left</td>
-				<td><input type="url" value="resource/basic/Test-left.png" id="step-url-left" class="left"></td>
-				<td><button type="button" onclick="document.getElementById('preview-left').src = document.getElementById('step-url-left').value">preview</button><img src="resource/basic/Test-left.png" id="preview-left" alt='no preview'></td>
+				<td><input type="file" id="step-file-left" class="left" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-left').src = e.src})"></td>
+				<td><img id="step-prev-left" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>top</td>
-				<td><input type="url" value="resource/basic/Test-top.png" id="step-url-top" class="top"></td>
-				<td><button type="button" onclick="document.getElementById('preview-top').src = document.getElementById('step-url-top').value">preview</button><img src="resource/basic/Test-top.png" id="preview-top" alt='no preview'></td>
+				<td><input type="file" id="step-file-top" class="top" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-top').src = e.src})"></td>
+				<td><img id="step-prev-top" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>bottom</td>
-				<td><input type="url" value="resource/basic/Test-bottom.png" id="step-url-bottom" class="bottom"></td>
-				<td><button type="button" onclick="document.getElementById('preview-bottom').src = document.getElementById('step-url-bottom').value">preview</button><img src="resource/basic/Test-bottom.png" id="preview-bottom" alt='no preview'></td>
+				<td><input type="file" id="step-file-bottom" class="bottom" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-bottom').src = e.src})"></td>
+				<td><img id="step-prev-bottom" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>front</td>
-				<td><input type="url" value="resource/basic/Test-front.png" id="step-url-front" class="front"></td>
-				<td><button type="button" onclick="document.getElementById('preview-front').src = document.getElementById('step-url-front').value">preview</button><img src="resource/basic/Test-front.png" id="preview-front" alt='no preview'></td>
+				<td><input type="file" id="step-file-front" class="front" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-front').src = e.src})"></td>
+				<td><img id="step-prev-front" style="width: 16px; height: 16px"></td>
 			</tr>
 			<tr>
 				<td>back</td>
-				<td><input type="url" value="resource/basic/Test-back.png" id="step-url-back" class="back"></td>
-				<td><button type="button" onclick="document.getElementById('preview-back').src = document.getElementById('step-url-back').value">preview</button><img src="resource/basic/Test-back.png" id="preview-back" alt='no preview'></td>
-			</tr>
-		</table>
-	</div>
-	<div class="stepOneface" style="display: none">
-		<table>
-			<tr>
-				<td>baseURL</td>
-				<td><input type="url" value="resource/basic/Test.png" id="step-url" class="right"></td>
-				<td><button type="button" onclick="
-					document.getElementById('step-preview-right-fast').src = document.getElementById('step-url').value.replace('.', '-right.');
-					document.getElementById('step-preview-left-fast').src = document.getElementById('step-url').value.replace('.', '-left.');
-					document.getElementById('step-preview-top-fast').src = document.getElementById('step-url').value.replace('.', '-top.');
-					document.getElementById('step-preview-bottom-fast').src = document.getElementById('step-url').value.replace('.', '-bottom.');
-					document.getElementById('step-preview-front-fast').src = document.getElementById('step-url').value.replace('.', '-front.');
-					document.getElementById('step-preview-back-fast').src = document.getElementById('step-url').value.replace('.', '-back.')">preview</button>
-					<img src="resource/basic/Test-right.png" id="step-preview-right-fast" alt='no preview'>
-					<img src="resource/basic/Test-left.png" id="step-preview-left-fast" alt='no preview'>
-					<img src="resource/basic/Test-top.png" id="step-preview-top-fast" alt='no preview'>
-					<img src="resource/basic/Test-bottom.png" id="step-preview-bottom-fast" alt='no preview'>
-					<img src="resource/basic/Test-front.png" id="step-preview-front-fast" alt='no preview'>
-					<img src="resource/basic/Test-back.png" id="step-preview-back-fast" alt='no preview'>
-				</td>
+				<td><input type="file" id="step-file-back" class="back" onchange="sbmenu_world.loadImg(this,function(e){document.getElementById('step-prev-back').src = e.src})"></td>
+				<td><img id="step-prev-back" style="width: 16px; height: 16px"></td>
 			</tr>
 		</table>
 	</div>
