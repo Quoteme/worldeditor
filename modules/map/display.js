@@ -50,12 +50,43 @@ function displayMap(m, s){
 	}
 }
 
+function dummyRender(m, s) {
+	if (typeof s.getObjectByName("worldGeo") != "undefined") {
+		s.remove(s.getObjectByName("worldGeo"));
+	}
+	var tmp = new THREE.Geometry();
+
+	if (m.type == "limited") {
+		m.meshes = new Array(m.data.length);
+		for (var x = 0; x < m.data.length; x++) {
+			m.meshes[x] = new Array(m.data[x].length);
+			for (var y = 0; y < m.data[x].length; y++) {
+				m.meshes[x][y] = new Array(m.data[x][y].length);
+				for (var z = 0; z < m.data[x][y].length; z++) {
+					if (m.material[m.data[x][y][z]-1]=="") {
+						m.data[x][y][z] = 0;
+					}
+					else if (m.data[x][y][z] != 0) {
+						// addCube(m,m.data[x][y][z],x,y,z,false);
+						var box = new THREE.Mesh(new THREE.BoxGeometry(option.blocksize, option.blocksize, option.blocksize));
+						box.position.set(option.blocksize*x-((m.size.x/2)*option.blocksize-option.blocksize/2),option.blocksize*y+option.blocksize/2,option.blocksize*z-((m.size.z/2)*option.blocksize-option.blocksize/2));
+						box.updateMatrix();
+						tmp.merge(box.geometry, box.matrix);
+					}
+				}
+			}
+		}
+		worldGeo = new THREE.Mesh(tmp, new THREE.MeshPhongMaterial({color: 0xbbbbbb}));
+		worldGeo.name = "worldGeo";
+		scene.add(worldGeo);
+	}
+}
+
 function addCube(m,type,x,y,z,neighbourCheck) {
 	// neighbourcheck checks the voxels around a given voxel for shared faces and makes them invisible if needed
 	if (typeof neighbourCheck == "undefined") {
 		neighbourCheck = true;
 	}
-	m.data[x][y][z] = type;
 	m.meshes[x][y][z] = genMesh(m.material[type-1],[option.blocksize,option.blocksize,option.blocksize]);
 	m.meshes[x][y][z].coord = [x,y,z];
 	// remove faces that are blocked by other blocks

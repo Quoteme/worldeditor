@@ -22,7 +22,7 @@ function VoxelMap(p) {
 		this.data[Math.floor(this.size.x/2)][0][Math.floor(this.size.z/2)] = 1;
 	}
 	this.material = [
-		{"name":"test","type":"cube","description":"A simple test block. Can be deleted.","f":{"front":"resource/basic/Test-front.png","back":"resource/basic/Test-back.png","left":"resource/basic/Test-left.png","right":"resource/basic/Test-right.png","top":"resource/basic/Test-top.png","bottom":"resource/basic/Test-bottom.png"},"r":{"x":"0","y":"0","z":"0"},"physics":{}}
+		{"name":"test","type":"cube","description":"A simple test block. Can be deleted.","f":{"front":"resource/basic/test-front.png","back":"resource/basic/test-back.png","left":"resource/basic/test-left.png","right":"resource/basic/test-right.png","top":"resource/basic/test-top.png","bottom":"resource/basic/test-bottom.png"},"r":{"x":"0","y":"0","z":"0"},"physics":{}}
 	];
 }
 
