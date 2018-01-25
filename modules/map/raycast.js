@@ -61,7 +61,7 @@ function onDocumentMouseUp( event ) {
 			if (clickedPoint.x >= 0 && clickedPoint.x < file.size.x &&
 				clickedPoint.y >= 0 && clickedPoint.y < file.size.y &&
 				clickedPoint.z >= 0 && clickedPoint.z < file.size.z) {
-					// file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] = option.pickedBlock;
+					file.data[clickedPoint.x][clickedPoint.y][clickedPoint.z] = option.pickedBlock;
 					addCube(file,option.pickedBlock,clickedPoint.x,clickedPoint.y,clickedPoint.z);
 			}
 			// displayMap(file);
