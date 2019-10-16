@@ -69,6 +69,7 @@ function Multimenu() {
 		client.send();
 	}
 
+	// switch to a different submenu based on the classname of the clicked element
 	this.switchMenu = function (e) {
 		// change title of the menuslct
 		var title = e.className;
