@@ -1,12 +1,12 @@
-# Worldeditor
-#### A simple and <b>LIGHTWEIGHT</b> voxel editor/creator for your browser and voxel projects
+# [Worldeditor](https://quoteme.github.io/worldeditor/)
+#### A simple and <b>LIGHTWEIGHT</b> voxel map editor/creator for your browser.
 
 ![Demo Image](http://i.imgur.com/sf1974J.gif)
 ![Demo 2](https://i.imgur.com/7jGLjk5.png)
 
 ## How to:
 #### Online version
-[Go to the full featured online version](http://htmlpreview.github.io/?https://github.com/Quoteme/worldeditor/blob/master/index.html)
+[https://quoteme.github.io/worldeditor/](https://quoteme.github.io/worldeditor/)
 
 #### Local Installation
 download the entire project and open index.html in your browser (chrome at best)
